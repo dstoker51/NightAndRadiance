@@ -23,7 +23,7 @@ class Vector {
         z = r * sin(theta2)
     }
     
-    init(vector: Vector) {
+    init(_ vector: Vector) {
         x = vector.x
         y = vector.y
         z = vector.z
@@ -33,7 +33,7 @@ class Vector {
         return x * vector.x + y * vector.y + z * vector.z
     }
     
-    func cross(vector: Vector) -> Vector {
+    func cross(_ vector: Vector) -> Vector {
         let compX = y * vector.z - z * vector.y
         let compY = z * vector.x - x * vector.z
         let compZ = x * vector.y - y * vector.x
