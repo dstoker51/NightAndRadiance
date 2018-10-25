@@ -79,15 +79,6 @@ class NightAndRadianceTests: XCTestCase {
     // MARK: - Method Tests
     //----------------------------------------------------------------------------------------------------------------------------------
 
-    func testCreateWithVector() {
-        let originalVector = Vector(x: 7.5, y: 8.5, z: 9.5)
-        let vectorCopy = Vector(originalVector)
-        XCTAssertEqual(vectorCopy.x, 7.5)
-        XCTAssertEqual(vectorCopy.y, 8.5)
-        XCTAssertEqual(vectorCopy.z, 9.5)
-    }
-
-    // METHOD TESTS
     func testDotProductBasic() {
         let vector1 = Vector(x: 1.0, y: 1.0, z: 1.0)!
         let vector2 = Vector(x: 0.0, y: 0.0, z: 0.0)!
@@ -102,15 +93,15 @@ class NightAndRadianceTests: XCTestCase {
     }
 
     func testDotProductBothNegative() {
-        let vector1 = Vector(x: -1.0, y: -1.0, z: -1.0)
-        let vector2 = Vector(x: -1.0, y: -1.0, z: -1.0)
+        let vector1 = Vector(x: -1.0, y: -1.0, z: -1.0)!
+        let vector2 = Vector(x: -1.0, y: -1.0, z: -1.0)!
         let scalarDot = vector1.dot(vector2)
         XCTAssertEqual(scalarDot, 3.0)
     }
 
     func testDotProductNegativeAndPositive() {
-        let vector1 = Vector(x: -1.0, y: -1.0, z: -1.0)
-        let vector2 = Vector(x: 1.0, y: 1.0, z: 1.0)
+        let vector1 = Vector(x: -1.0, y: -1.0, z: -1.0)!
+        let vector2 = Vector(x: 1.0, y: 1.0, z: 1.0)!
         let scalarDot = vector1.dot(vector2)
         XCTAssertEqual(scalarDot, -3.0)
     }
