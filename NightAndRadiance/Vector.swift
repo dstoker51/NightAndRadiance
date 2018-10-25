@@ -34,7 +34,7 @@ class Vector {
         self.init(r: r, theta1: theta1, theta2: theta2, w: 1.0)
     }
 
-    convenience init?(vector: Vector) {
+    convenience init?(_ vector: Vector) {
         self.init(x: vector.x, y: vector.y, z: vector.z, w: vector.w)
     }
 
@@ -76,16 +76,16 @@ class Vector {
     }
 }
 
-func +(v1: Vector, v2: Vector) -> Vector? {
-    return Vector(x: v1.x + v2.x, y: v1.y + v2.y, z: v1.z + v2.z)
+func +(v1: Vector, v2: Vector) -> Vector {
+    return Vector(x: v1.x + v2.x, y: v1.y + v2.y, z: v1.z + v2.z)!
 }
 
-func -(v1: Vector, v2: Vector) -> Vector? {
-    return Vector(x: v1.x - v2.x, y: v1.y - v2.y, z: v1.z - v2.z)
+func -(v1: Vector, v2: Vector) -> Vector {
+    return Vector(x: v1.x - v2.x, y: v1.y - v2.y, z: v1.z - v2.z)!
 }
 
-func *(vector: Vector, scalar: Double) -> Vector? {
-    return Vector(x: vector.x * scalar, y: vector.y * scalar, z: vector.z * scalar)
+func *(vector: Vector, scalar: Double) -> Vector {
+    return Vector(x: vector.x * scalar, y: vector.y * scalar, z: vector.z * scalar)!
 }
 
 func ==(v1: Vector, v2: Vector) -> Bool {
