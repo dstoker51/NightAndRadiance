@@ -68,6 +68,18 @@ class NightAndRadianceTests: XCTestCase {
     }
 
     func testCreateWithVector() {
+        let originalVector = Vector(x: 7.5, y: 8.5, z: 9.5)!
+        let vectorCopy = Vector(originalVector)!
+        XCTAssertEqual(vectorCopy.x, 7.5)
+        XCTAssertEqual(vectorCopy.y, 8.5)
+        XCTAssertEqual(vectorCopy.z, 9.5)
+    }
+
+    //----------------------------------------------------------------------------------------------------------------------------------
+    // MARK: - Method Tests
+    //----------------------------------------------------------------------------------------------------------------------------------
+
+    func testCreateWithVector() {
         let originalVector = Vector(x: 7.5, y: 8.5, z: 9.5)
         let vectorCopy = Vector(originalVector)
         XCTAssertEqual(vectorCopy.x, 7.5)
@@ -104,98 +116,114 @@ class NightAndRadianceTests: XCTestCase {
     }
 
     func testCrossProductBasic() {
-        let vector1 = Vector(x: 1.0, y: 0.0, z: 0.0)
-        let vector2 = Vector(x: 0.0, y: 1.0, z: 0.0)
-        let crossVector = vector1.cross(vector2)
+        let vector1 = Vector(x: 1.0, y: 0.0, z: 0.0)!
+        let vector2 = Vector(x: 0.0, y: 1.0, z: 0.0)!
+        let crossVector = vector1.cross(vector2)!
         XCTAssertEqual(crossVector.x, 0.0)
         XCTAssertEqual(crossVector.y, 0.0)
         XCTAssertEqual(crossVector.z, 1.0)
     }
 
     func testCrossProductDifferentLengths() {
-        let vector1 = Vector(x: 2.0, y: 0.0, z: 0.0)
-        let vector2 = Vector(x: 0.0, y: 3.0, z: 0.0)
-        let crossVector = vector1.cross(vector2)
+        let vector1 = Vector(x: 2.0, y: 0.0, z: 0.0)!
+        let vector2 = Vector(x: 0.0, y: 3.0, z: 0.0)!
+        let crossVector = vector1.cross(vector2)!
         XCTAssertEqual(crossVector.x, 0.0)
         XCTAssertEqual(crossVector.y, 0.0)
         XCTAssertEqual(crossVector.z, 6.0)
     }
 
     func testCrossProductDifferentAngles() {
-        let vector1 = Vector(x: 1.0, y: 1.0, z: 0.0)
-        let vector2 = Vector(x: -1.0, y: 1.0, z: 0.0)
-        let crossVector = vector1.cross(vector2)
+        let vector1 = Vector(x: 1.0, y: 1.0, z: 0.0)!
+        let vector2 = Vector(x: -1.0, y: 1.0, z: 0.0)!
+        let crossVector = vector1.cross(vector2)!
         XCTAssertEqual(crossVector.x, 0.0)
         XCTAssertEqual(crossVector.y, 0.0)
         XCTAssertEqual(crossVector.z, 2.0)
     }
 
     func testCrossProductDifferentAngles2() {
-        let vector1 = Vector(x: 1.0, y: 1.0, z: 0.0)
-        let vector2 = Vector(x: 0.0, y: 1.0, z: 0.0)
-        let crossVector = vector1.cross(vector2)
+        let vector1 = Vector(x: 1.0, y: 1.0, z: 0.0)!
+        let vector2 = Vector(x: 0.0, y: 1.0, z: 0.0)!
+        let crossVector = vector1.cross(vector2)!
         XCTAssertEqual(crossVector.x, 0.0)
         XCTAssertEqual(crossVector.y, 0.0)
         XCTAssertEqual(crossVector.z, sqrt(2.0) * sin(Double.pi/4.0), accuracy: Double.ulpOfOne)
     }
 
     func testMagnitudePositive() {
-        let vector = Vector(r: 1024.6, theta1: 0.0, theta2: 0.0)
+        let vector = Vector(r: 1024.6, theta1: 0.0, theta2: 0.0)!
         XCTAssertEqual(vector.magnitude, 1024.6)
     }
 
     func testMagnitudeNegative() {
-        let vector = Vector(r: -1024.6, theta1: 0.0, theta2: 0.0)
+        let vector = Vector(r: -1024.6, theta1: 0.0, theta2: 0.0)!
         XCTAssertEqual(vector.magnitude, 1024.6)
     }
 
     func testInvertPositive() {
-        let vector = Vector(r: 10.0, theta1: 0.0, theta2: 0.0)
+        let vector = Vector(r: 10.0, theta1: 0.0, theta2: 0.0)!
         vector.invert()
         XCTAssertEqual(vector.x, -10.0)
     }
 
     func testInvertNegative() {
-        let vector = Vector(r: -10.0, theta1: 0.0, theta2: 0.0)
+        let vector = Vector(r: -10.0, theta1: 0.0, theta2: 0.0)!
         vector.invert()
         XCTAssertEqual(vector.x, 10.0)
     }
 
     func testInvertedPositive() {
-        let vector = Vector(r: 10.0, theta1: 0.0, theta2: 0.0)
-        XCTAssertEqual(vector.inverted().x, -10.0)
+        if let vector = Vector(r: 10.0, theta1: 0.0, theta2: 0.0){
+            XCTAssertEqual(vector.inverted()?.x, -10.0)
+        }
+        else {
+            XCTFail()
+        }
     }
 
     func testInvertedNegative() {
-        let vector = Vector(r: -10.0, theta1: 0.0, theta2: 0.0)
-        XCTAssertEqual(vector.inverted().x, 10.0)
+        if let vector = Vector(r: -10.0, theta1: 0.0, theta2: 0.0) {
+            XCTAssertEqual(vector.inverted()?.x, 10.0)
+        }
+        else {
+            XCTFail()
+        }
     }
 
     func testNormalizePositive() {
-        let vector = Vector(r: 10.0, theta1: 0.0, theta2: 0.0)
+        let vector = Vector(r: 10.0, theta1: 0.0, theta2: 0.0)!
         vector.normalize()
         XCTAssertEqual(vector.x, 1.0)
     }
 
     func testNormalizeNegative() {
-        let vector = Vector(r: -10.0, theta1: 0.0, theta2: 0.0)
+        let vector = Vector(r: -10.0, theta1: 0.0, theta2: 0.0)!
         vector.normalize()
         XCTAssertEqual(vector.x, -1.0)
     }
 
     func testNormalizedPositive() {
-        let vector = Vector(r: 10.0, theta1: 0.0, theta2: 0.0)
-        XCTAssertEqual(vector.normalized().x, 1.0)
+        if let vector = Vector(r: 10.0, theta1: 0.0, theta2: 0.0) {
+            XCTAssertEqual(vector.normalized()?.x, 1.0)
+        }
+        else {
+            XCTFail()
+        }
     }
 
     func testNormalizedNegative() {
-        let vector = Vector(r: -10.0, theta1: 0.0, theta2: 0.0)
-        XCTAssertEqual(vector.normalized().x, -1.0)
+        if let vector = Vector(r: -10.0, theta1: 0.0, theta2: 0.0) {
+            XCTAssertEqual(vector.normalized()?.x, -1.0)
+        }
+        else {
+            XCTFail()
+        }
     }
 
     func testVectorAddXYSimple() {
-        let vector1 = Vector(x: 1.0, y: 1.0, z: 0.0)
-        let vector2 = Vector(x: 1.0, y: 1.0, z: 0.0)
+        let vector1 = Vector(x: 1.0, y: 1.0, z: 0.0)!
+        let vector2 = Vector(x: 1.0, y: 1.0, z: 0.0)!
         let resultantVector = vector1 + vector2
         XCTAssertEqual(resultantVector.x, 2.0)
         XCTAssertEqual(resultantVector.y, 2.0)
@@ -203,8 +231,8 @@ class NightAndRadianceTests: XCTestCase {
     }
 
     func testVectorAddXYComplicated() {
-        let vector1 = Vector(x: 1.0, y: 1.0, z: 0.0)
-        let vector2 = Vector(x: 0.7, y: 0.3, z: 0.0)
+        let vector1 = Vector(x: 1.0, y: 1.0, z: 0.0)!
+        let vector2 = Vector(x: 0.7, y: 0.3, z: 0.0)!
         let resultantVector = vector1 + vector2
         XCTAssertEqual(resultantVector.x, 1.7)
         XCTAssertEqual(resultantVector.y, 1.3)
@@ -212,8 +240,8 @@ class NightAndRadianceTests: XCTestCase {
     }
 
     func testVectorAddXYZ() {
-        let vector1 = Vector(x: 1.0, y: 1.0, z: 1.0)
-        let vector2 = Vector(x: 0.7, y: 0.3, z: 0.5)
+        let vector1 = Vector(x: 1.0, y: 1.0, z: 1.0)!
+        let vector2 = Vector(x: 0.7, y: 0.3, z: 0.5)!
         let resultantVector = vector1 + vector2
         XCTAssertEqual(resultantVector.x, 1.7)
         XCTAssertEqual(resultantVector.y, 1.3)
@@ -221,8 +249,8 @@ class NightAndRadianceTests: XCTestCase {
     }
 
     func testVectorSubtractXYSimple() {
-        let vector1 = Vector(x: 1.0, y: 1.0, z: 0.0)
-        let vector2 = Vector(x: 1.0, y: 1.0, z: 0.0)
+        let vector1 = Vector(x: 1.0, y: 1.0, z: 0.0)!
+        let vector2 = Vector(x: 1.0, y: 1.0, z: 0.0)!
         let resultantVector = vector1 - vector2
         XCTAssertEqual(resultantVector.x, 0.0)
         XCTAssertEqual(resultantVector.y, 0.0)
@@ -230,8 +258,8 @@ class NightAndRadianceTests: XCTestCase {
     }
 
     func testVectorSubtractXYComplicated() {
-        let vector1 = Vector(x: 1.0, y: 1.0, z: 0.0)
-        let vector2 = Vector(x: 0.7, y: 0.3, z: 0.0)
+        let vector1 = Vector(x: 1.0, y: 1.0, z: 0.0)!
+        let vector2 = Vector(x: 0.7, y: 0.3, z: 0.0)!
         let resultantVector = vector1 - vector2
         XCTAssertEqual(resultantVector.x, 0.3, accuracy: Double.ulpOfOne)
         XCTAssertEqual(resultantVector.y, 0.7, accuracy: Double.ulpOfOne)
@@ -239,8 +267,8 @@ class NightAndRadianceTests: XCTestCase {
     }
 
     func testVectorSubtractXYZ() {
-        let vector1 = Vector(x: 1.0, y: 1.0, z: 1.0)
-        let vector2 = Vector(x: 0.7, y: 0.3, z: 0.5)
+        let vector1 = Vector(x: 1.0, y: 1.0, z: 1.0)!
+        let vector2 = Vector(x: 0.7, y: 0.3, z: 0.5)!
         let resultantVector = vector1 - vector2
         XCTAssertEqual(resultantVector.x, 0.3, accuracy: Double.ulpOfOne)
         XCTAssertEqual(resultantVector.y, 0.7, accuracy: Double.ulpOfOne)
@@ -248,7 +276,7 @@ class NightAndRadianceTests: XCTestCase {
     }
 
     func testVectorMultiplyByScalar() {
-        let vector = Vector(x: 1.0, y: 2.0, z: 3.0)
+        let vector = Vector(x: 1.0, y: 2.0, z: 3.0)!
         let resultantVector = vector * Double.pi
         XCTAssertEqual(resultantVector.x, Double.pi, accuracy: Double.ulpOfOne)
         XCTAssertEqual(resultantVector.y, 2.0 * Double.pi, accuracy: Double.ulpOfOne)
@@ -256,20 +284,22 @@ class NightAndRadianceTests: XCTestCase {
     }
 
     func testVectorEqualityBasic() {
-        let vector1 = Vector(x: 1.0, y: 2.0, z: 3.0)
-        let vector2 = Vector(x: 1.0, y: 2.0, z: 3.0)
+        let vector1 = Vector(x: 1.0, y: 2.0, z: 3.0)!
+        let vector2 = Vector(x: 1.0, y: 2.0, z: 3.0)!
         XCTAssert(vector1 == vector2)
     }
 
     func testVectorEqualityModified() {
-        let vector1 = Vector(x: 1.0, y: 2.0, z: 2.0)
-        let vector2 = Vector(x: 1.0, y: 2.0, z: 3.0)
+        let vector1 = Vector(x: 1.0, y: 2.0, z: 2.0)!
+        let vector2 = Vector(x: 1.0, y: 2.0, z: 3.0)!
         vector1.z = 3.0
         XCTAssert(vector1 == vector2)
     }
-
-    // TIME TESTS
-    func testTimeOneMillionVectors() {
+    
+    //----------------------------------------------------------------------------------------------------------------------------------
+    // MARK: - Time Tests
+    //----------------------------------------------------------------------------------------------------------------------------------
+    func testTimeToCreateOneMillionVectors() {
         self.measure {
             var vectors = [Vector]()
             for x in 0...99 {
