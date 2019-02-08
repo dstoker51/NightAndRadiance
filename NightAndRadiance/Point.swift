@@ -11,22 +11,24 @@ import Foundation
 class Point {
     var x, y, z: Double
     
-    init?(_ x: Double, _ y: Double, _ z: Double) {
-        guard !x.isNaN && !y.isNaN && !z.isNaN else {
-            return nil
+    init(_ x: Double, _ y: Double, _ z: Double) {
+        if x.isNaN || y.isNaN || z.isNaN {
+            self.x = 0.0
+            self.y = 0.0
+            self.z = 0.0
         }
-        self.x = x
-        self.y = y
-        self.z = z
+        else {
+            self.x = x
+            self.y = y
+            self.z = z
+        }
     }
 }
 
 func +(point: Point, vector: Vector) -> Point {
-    // FIXME Forcing this unwrap is dangerous. But this operation expects this to just work, right?
-    return Point(point.x + vector.x, point.y + vector.y, point.z + vector.z)!
+    return Point(point.x + vector.x, point.y + vector.y, point.z + vector.z)
 }
 
 func -(point: Point, vector: Vector) -> Point {
-    // FIXME Forcing this unwrap is dangerous. But this operation expects this to just work, right?
-    return Point(point.x - vector.x, point.y - vector.y, point.z - vector.z)!
+    return Point(point.x - vector.x, point.y - vector.y, point.z - vector.z)
 }
