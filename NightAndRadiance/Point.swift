@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Point {
+class Point: Hashable {
     var x, y, z: Double
     
     init(_ x: Double, _ y: Double, _ z: Double) {
@@ -23,6 +23,12 @@ class Point {
             self.z = z
         }
     }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(x)
+        hasher.combine(y)
+        hasher.combine(z)
+    }
 }
 
 func +(point: Point, vector: Vector) -> Point {
@@ -31,4 +37,8 @@ func +(point: Point, vector: Vector) -> Point {
 
 func -(point: Point, vector: Vector) -> Point {
     return Point(point.x - vector.x, point.y - vector.y, point.z - vector.z)
+}
+
+func == (lhs: Point, rhs: Point) -> Bool {
+    return (lhs.x == rhs.x && lhs.y == rhs.y && lhs.z == rhs.z ? true : false)
 }

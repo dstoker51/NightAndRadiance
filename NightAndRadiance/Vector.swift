@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Vector {
+class Vector: Hashable {
     var x, y, z, w: Double
 
     // Uses homogenous coordiate systems, i.e (x, y, z, w) represents (x/w, y/w, z/w).
@@ -79,20 +79,36 @@ class Vector {
         let scale = 1/magnitude
         return Vector(x: x * scale, y: y * scale, z: z * scale)
     }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(x)
+        hasher.combine(y)
+        hasher.combine(z)
+        hasher.combine(w)
+    }
 }
 
 func +(v1: Vector, v2: Vector) -> Vector {
     return Vector(x: v1.x + v2.x, y: v1.y + v2.y, z: v1.z + v2.z)
 }
 
+func +(vector: Vector, point: Point) -> Point {
+    return Point(point.x + vector.x, point.y + vector.y, point.z + vector.z)
+}
+
 func -(v1: Vector, v2: Vector) -> Vector {
     return Vector(x: v1.x - v2.x, y: v1.y - v2.y, z: v1.z - v2.z)
+}
+
+func -(vector: Vector, point: Point) -> Point {
+    return Point(point.x - vector.x, point.y - vector.y, point.z - vector.z)
 }
 
 func *(vector: Vector, scalar: Double) -> Vector {
     return Vector(x: vector.x * scalar, y: vector.y * scalar, z: vector.z * scalar)
 }
 
-func ==(v1: Vector, v2: Vector) -> Bool {
+func == (v1: Vector, v2: Vector) -> Bool {
     return (v1.x == v2.x && v1.y == v2.y && v1.z == v2.z ? true : false)
 }
+

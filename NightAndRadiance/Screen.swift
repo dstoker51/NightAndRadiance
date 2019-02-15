@@ -8,12 +8,12 @@
 
 import Foundation
 
-class Screen {
+class Screen: SceneObject {
     var width: UInt32 = 0, height: UInt32 = 0
     var centerX: Double = -1.0, centerY: Double = -1.0
     var screenU, screenV : Vector
     
-    init(screenWidth: Int, screenHeight: Int, screenU: Vector, screenV: Vector) {
+    init(screenWidth: Int, screenHeight: Int, screenU: Vector, screenV: Vector, worldPosition: Point) {
         self.screenU = screenU.normalized()
         self.screenV = screenV.normalized()
         
@@ -29,5 +29,7 @@ class Screen {
             centerX = Double(width) / 2.0
             centerY = Double(height) / 2.0
         }
+        
+        super.init(worldPosition: worldPosition)
     }
 }
