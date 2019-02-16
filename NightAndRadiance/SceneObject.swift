@@ -8,27 +8,17 @@
 
 import Foundation
 
-class SceneObject: Hashable {
-    let worldPosition: Point
+protocol SceneObject: Hashable {
+    var worldPosition: Point { get set }
+    func intersect(ray: Ray) -> Bool
     
-    init(worldPosition: Point) {
-        self.worldPosition = worldPosition
-    }
-    
-    func intersect(ray: Ray) -> Bool {
-        return false
-    }
-    
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(worldPosition)
-    }
-    
-    static func == (rhs: SceneObject, lhs: SceneObject) -> Bool {
-//        if rhs.worldPositionX == lhs.worldPositionX &&
-//            rhs.worldPositionY == lhs.worldPositionY &&
-//            rhs.worldPositionZ == lhs.worldPositionZ {
-//            return true
-//        }
-        return (rhs === lhs ? true : false)
-    }
+//    static func == (rhs: SceneObject, lhs: SceneObject) -> Bool {
+////        if rhs.worldPositionX == lhs.worldPositionX &&
+////            rhs.worldPositionY == lhs.worldPositionY &&
+////            rhs.worldPositionZ == lhs.worldPositionZ {
+////            return true
+////        }
+//        return (rhs === lhs ? true : false)
+//    }
 }
+

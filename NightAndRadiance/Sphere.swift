@@ -8,22 +8,16 @@
 
 import Foundation
 
-class Sphere: SceneObject {
+struct Sphere: SceneObject {
     let radius: Double
+    var worldPosition: Point
     
     init(radius: Double, worldPosition: Point) {
         self.radius = radius
-        super.init(worldPosition: worldPosition)
+        self.worldPosition = worldPosition
     }
     
-    override func intersect(ray: Ray) -> Bool {
+    func intersect(ray: Ray) -> Bool {
         return false
-    }
-    
-    override func hash(into hasher: inout Hasher) {
-        // TODO How to use super's hash function instead of combining all by hand?
-        //        super.hash(into: hasher)
-        hasher.combine(super.worldPosition)
-        hasher.combine(radius)
     }
 }

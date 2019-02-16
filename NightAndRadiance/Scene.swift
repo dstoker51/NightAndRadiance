@@ -12,12 +12,17 @@ class Scene {
     typealias Eye = Ray
     let screen: Screen
     let eye: Eye
-    var objectList: Set<SceneObject>
+//    var objectSet: Set<SceneObject> // Swift does yet have generalized existentials (see https://github.com/apple/swift/blob/master/docs/GenericsManifesto.md#generalized-existentials)
     
-    init(screen: Screen, screenU: Vector, screenV: Vector, eye: Eye, objectList: Set<SceneObject>) {
+    // TODO Figure out the piece from above. Better than separate lists.
+    var sphereSet: Set<Sphere>
+    var planeSet: Set<Plane>
+    
+    init(screen: Screen, screenU: Vector, screenV: Vector, eye: Eye, sphereSet: Set<Sphere>, planeSet: Set<Plane>) {
         self.screen = screen
         self.eye = eye
-        self.objectList = objectList
+        self.sphereSet = sphereSet
+        self.planeSet = planeSet
     }
     
 //    convenience init(){

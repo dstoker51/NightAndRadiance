@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Point: Hashable {
+struct Point: Hashable {
     var x, y, z: Double
     
     init(_ x: Double, _ y: Double, _ z: Double) {
@@ -22,12 +22,6 @@ class Point: Hashable {
             self.y = y
             self.z = z
         }
-    }
-    
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(x)
-        hasher.combine(y)
-        hasher.combine(z)
     }
 }
 

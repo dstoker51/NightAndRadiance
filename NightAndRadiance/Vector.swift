@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Vector: Hashable {
+struct Vector: Hashable {
     var x, y, z, w: Double
 
     // Uses homogenous coordiate systems, i.e (x, y, z, w) represents (x/w, y/w, z/w).
@@ -27,19 +27,19 @@ class Vector: Hashable {
         }
     }
 
-    convenience init(x: Double, y: Double, z: Double) {
+    init(x: Double, y: Double, z: Double) {
         self.init(x: x, y: y, z: z, w: 1.0)
     }
 
-    convenience init(r: Double, theta1: Double, theta2 : Double, w: Double) {
+    init(r: Double, theta1: Double, theta2 : Double, w: Double) {
         self.init(x: r * cos(theta1), y: r * sin(theta1), z: r * sin(theta2), w: w)
     }
 
-    convenience init(r: Double, theta1: Double, theta2 : Double) {
+    init(r: Double, theta1: Double, theta2 : Double) {
         self.init(r: r, theta1: theta1, theta2: theta2, w: 1.0)
     }
 
-    convenience init(_ vector: Vector) {
+    init(_ vector: Vector) {
         self.init(x: vector.x, y: vector.y, z: vector.z, w: vector.w)
     }
 
@@ -58,21 +58,8 @@ class Vector: Hashable {
         return sqrt(x * x + y * y + z * z)
     }
 
-    func invert(){
-        x = -x
-        y = -y
-        z = -z
-    }
-
     func inverted() -> Vector {
         return Vector(x: -x, y: -y, z: -z)
-    }
-
-    func normalize() {
-        let scale = 1/magnitude
-        x = x * scale
-        y = y * scale
-        z = z * scale
     }
 
     func normalized() -> Vector {

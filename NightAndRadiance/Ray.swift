@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Ray: Hashable {
+struct Ray: Hashable {
     let emissionPoint: Point
     let directionVector: Vector
     
@@ -17,13 +17,8 @@ class Ray: Hashable {
         self.directionVector = directionVector
     }
     
-    convenience init(originX: Double, originY: Double, originZ: Double, vectorX: Double, vectorY: Double, vectorZ: Double) {
+    init(originX: Double, originY: Double, originZ: Double, vectorX: Double, vectorY: Double, vectorZ: Double) {
         self.init(emissionPoint: Point(originX, originY, originZ), directionVector: Vector(x: vectorX, y: vectorY, z: vectorZ))
-    }
-    
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(emissionPoint)
-        hasher.combine(directionVector)
     }
 }
 
