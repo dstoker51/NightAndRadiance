@@ -12,14 +12,22 @@ struct Plane: SceneObject {
     let vectorU: Vector
     let vectorV: Vector
     var worldPosition: Point
+    var description: String { return "vectorU: \(vectorU), vectorV: \(vectorV), worldPosition: \(worldPosition)" }
     
     init(vectorU: Vector, vectorV: Vector, worldPosition: Point) {
-        self.vectorU = vectorU
-        self.vectorV = vectorV
-        self.worldPosition = worldPosition
+        if vectorU.dot(vectorV) != 0 {
+            self.vectorU = Vector(x: 0.0, y: 0.0, z: 0.0)
+            self.vectorV = Vector(x: 0.0, y: 1.0, z: 0.0)
+            self.worldPosition = worldPosition
+        }
+        else {
+            self.vectorU = vectorU
+            self.vectorV = vectorV
+            self.worldPosition = worldPosition
+        }
     }
     
-    func intersect(ray: Ray) -> Bool {
-        return false
+    func isIntersectedBy(ray: Ray) -> (Bool, Array<Point>) {
+        return (false, [])
     }
 }

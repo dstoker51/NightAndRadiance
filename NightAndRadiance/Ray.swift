@@ -26,3 +26,8 @@ func == (lhs: Ray, rhs: Ray) -> Bool {
     return (lhs.emissionPoint == rhs.emissionPoint && lhs.directionVector == rhs.directionVector ? true : false)
 }
 
+func * (ray: Ray, scalar: Double) -> Ray {
+    if scalar.isNaN { return ray }
+    return Ray(emissionPoint: ray.emissionPoint, directionVector: ray.directionVector * scalar)
+}
+

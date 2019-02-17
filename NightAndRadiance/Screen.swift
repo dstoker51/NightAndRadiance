@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Screen: SceneObject {
+struct Screen {
     var width: UInt32 = 0, height: UInt32 = 0
     var centerX: Double = -1.0, centerY: Double = -1.0
     var screenU, screenV : Vector
@@ -22,7 +22,7 @@ struct Screen: SceneObject {
         // Verify that screenU and screenV are orthogonal.
         if self.screenU.dot(self.screenV) != 0 {
             self.screenU = Vector(x: 0.0, y: 0.0, z: 0.0)
-            self.screenV = Vector(x: 0.0, y: 0.0, z: 0.0)
+            self.screenV = Vector(x: 0.0, y: 1.0, z: 0.0)
             // Defaults will be used.
         }
         else {
@@ -31,9 +31,5 @@ struct Screen: SceneObject {
             centerX = Double(width) / 2.0
             centerY = Double(height) / 2.0
         }
-    }
-    
-    func intersect(ray: Ray) -> Bool {
-        return false
     }
 }

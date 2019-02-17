@@ -83,6 +83,11 @@ func +(vector: Vector, point: Point) -> Point {
     return Point(point.x + vector.x, point.y + vector.y, point.z + vector.z)
 }
 
+// ??? What if I want to flip the ordering?
+//func +(point: Point, vector: Vector) -> Point {
+//    return vector + point
+//}
+
 func -(v1: Vector, v2: Vector) -> Vector {
     return Vector(x: v1.x - v2.x, y: v1.y - v2.y, z: v1.z - v2.z)
 }
