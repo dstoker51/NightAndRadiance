@@ -36,9 +36,9 @@ struct Sphere: SceneObject, CustomStringConvertible {
             let denominatorFraction = 1.0 / (2.0 * a)
             let firstRoot = (-b + sqrt(h)) * denominatorFraction
             let secondRoot = (-b - sqrt(h)) * denominatorFraction
-            let firstPoint = ray.emissionPoint + ray.directionVector * firstRoot
-            let secondPoint = ray.emissionPoint + ray.directionVector * secondRoot
-            return (true, [firstPoint, secondPoint])
+            let firstIntersectionPoint = ray.emissionPoint + ray.directionVector * firstRoot
+            let secondIntersectionPoint = ray.emissionPoint + ray.directionVector * secondRoot
+            return (true, [firstIntersectionPoint, secondIntersectionPoint])
         }
     }
     
