@@ -21,8 +21,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 //        let plane1 = Plane(vectorU: Vector(x:0.0, y:0.0, z:1.0), vectorV: Vector(x:0.0, y:1.0, z:0.0), worldPosition: Point(0.0, 0.0, -1.0))
 //        print(plane1.isIntersectedBy(ray: ray1))
         
-        var ppm = PPMWriter(filename: "output.txt", filepath: "/Users/Darin/Library/Containers/dstoker51.NightAndRadiance/Data/Documents/", width: 1024, height: 1024)
-        var raster = Array<Array<UInt8>>()
+        let ppm = PPMWriter(filename: "output.ppm", filepath: "/Users/Darin/Library/Containers/dstoker51.NightAndRadiance/Data/Documents/", width: 5, height: 5)
+        var raster: Array<Array<UInt8>>
+        raster = [[255, 0, 255], [0, 0, 0], [255, 0, 255], [0, 0, 0], [255, 0, 255], [0, 0, 0], [255, 0, 255], [0, 0, 0], [255, 0, 255], [0, 0, 0], [255, 0, 255], [0, 0, 0], [255, 0, 255], [0, 0, 0], [255, 0, 255], [0, 0, 0], [255, 0, 255], [0, 0, 0], [255, 0, 255], [0, 0, 0], [255, 0, 255], [0, 0, 0], [255, 0, 255], [0, 0, 0], [255, 0, 255]]
         ppm.write(raster: raster)
     }
 

@@ -9,14 +9,16 @@
 import Foundation
 
 struct Screen {
-    var width: UInt32 = 0, height: UInt32 = 0
-    var centerX: Double = -1.0, centerY: Double = -1.0
+    var width: Double = 0.0, height: Double = 0.0
+    var screenCenter = Point(0.0, 0.0, 0.0)
     var screenU, screenV : Vector
     var worldPosition: Point
+    var pixelWidth: Double
+    var pixelHeight: Double
     
-    init(screenWidth: Int, screenHeight: Int, screenU: Vector, screenV: Vector, worldPosition: Point) {
-        self.screenU = screenU.normalized()
-        self.screenV = screenV.normalized()
+    init(screenU: Vector, screenV: Vector, worldPosition: Point, numberOfPixelsWide: UInt32, numberOfPixelsTall: UInt32) {
+        self.screenU = screenU
+        self.screenV = screenV
         self.worldPosition = worldPosition
         
         // Verify that screenU and screenV are orthogonal.
@@ -25,11 +27,13 @@ struct Screen {
             self.screenV = Vector(x: 0.0, y: 1.0, z: 0.0)
             // Defaults will be used.
         }
-        else {
-            width = UInt32(abs(screenWidth))
-            height = UInt32(abs(screenHeight))
-            centerX = Double(width) / 2.0
-            centerY = Double(height) / 2.0
-        }
+        
+        width = screenU.magnitude
+        height = screenV.magnitude
+        screenCenter = Point(Double(width) / 2.0, Double(height) / 2.0, 0.0)
+        pixelWidth = width / Double(numberOfPixelsWide)
+        pixelHeight = height / Double(numberOfPixelsTall)
     }
+    
+    
 }

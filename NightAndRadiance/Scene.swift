@@ -25,6 +25,10 @@ class Scene {
         self.planeSet = planeSet
     }
     
+    func trace() {
+        var rayDirection: Vector = screen.screenCenter + 
+    }
+    
 //    convenience init(){
 //        let screen = Screen(screenWidth: 1000, screenHeight: 1000, screenU: Vector(x: 1.0, y: 0.0, z: 0.0), screenV: Vector(x: 0.0, y: 0.0, z: 1.0))
 //        let eye = Eye(emissionPoint: <#T##Point#>, directionVector: <#T##Vector#>)
