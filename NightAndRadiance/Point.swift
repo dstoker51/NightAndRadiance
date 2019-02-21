@@ -14,9 +14,9 @@ struct Point: Hashable, CustomStringConvertible {
     
     init(_ x: Double, _ y: Double, _ z: Double) {
         if x.isNaN || y.isNaN || z.isNaN {
-            self.x = 0.0
-            self.y = 0.0
-            self.z = 0.0
+            self.x = Double.infinity
+            self.y = Double.infinity
+            self.z = Double.infinity
         }
         else {
             self.x = x

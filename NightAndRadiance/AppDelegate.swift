@@ -21,6 +21,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 //        let plane1 = Plane(vectorU: Vector(x:0.0, y:0.0, z:1.0), vectorV: Vector(x:0.0, y:1.0, z:0.0), worldPosition: Point(0.0, 0.0, -1.0))
 //        print(plane1.isIntersectedBy(ray: ray1))
         
+        let screen = Screen(screenU: Vector(x: 1.0, y: 0.0, z: 0.0), screenV: Vector(x: 0.0, y: 0.0, z: 1.0), worldPosition: Point(0.0, 0.0, 0.0), numberOfPixelsWide: 1000, numberOfPixelsTall: 1000)
+        
+        var scene = Scene(screen: screen, eye: Point(-1.0, 0.0, 0.0))
+        scene.sphereSet.insert(Sphere(radius: 1.0, worldPosition: Point(10.0, 0.0, 0.0), red: 255, green: 0, blue: 0))
+        
         let ppm = PPMWriter(filename: "output.ppm", filepath: "/Users/Darin/Library/Containers/dstoker51.NightAndRadiance/Data/Documents/", width: 5, height: 5)
         var raster: Array<Array<UInt8>>
         raster = [[255, 0, 255], [0, 0, 0], [255, 0, 255], [0, 0, 0], [255, 0, 255], [0, 0, 0], [255, 0, 255], [0, 0, 0], [255, 0, 255], [0, 0, 0], [255, 0, 255], [0, 0, 0], [255, 0, 255], [0, 0, 0], [255, 0, 255], [0, 0, 0], [255, 0, 255], [0, 0, 0], [255, 0, 255], [0, 0, 0], [255, 0, 255], [0, 0, 0], [255, 0, 255], [0, 0, 0], [255, 0, 255]]

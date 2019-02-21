@@ -17,6 +17,7 @@ struct Screen {
     var pixelHeight: Double
     var numberOfPixelsWide: UInt32
     var numberOfPixelsTall: UInt32
+    var raster = Array(repeating: Array<UInt8>(repeating: 0, count: 3), count: 3)
     
     init(screenU: Vector, screenV: Vector, worldPosition: Point, numberOfPixelsWide: UInt32, numberOfPixelsTall: UInt32) {
         self.screenU = screenU
@@ -47,5 +48,12 @@ struct Screen {
         let pointX: Double = pixelWidth * Double(pixelX - 1) + pixelWidth / 2.0   // Center of the pixel.
         let pointY: Double = pixelHeight * Double(pixelY - 1) + pixelHeight / 2.0   // Center of the pixel.
         return Point(pointX, pointY, worldPosition.z)
+    }
+    
+    mutating func insertColorAtPixel(x: Int, y: Int, red: UInt8, green: UInt8, blue: UInt8) {
+        let index = y * Int(numberOfPixelsWide) + x
+        raster[index][0] = red
+        raster[index][1] = green
+        raster[index][2] = blue
     }
 }

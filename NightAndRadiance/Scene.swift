@@ -10,19 +10,17 @@ import Foundation
 
 class Scene {
     typealias Eye = Point
-    let screen: Screen
+    var screen: Screen
     let eye: Eye
 //    var objectSet: Set<SceneObject> // Swift does yet have generalized existentials (see https://github.com/apple/swift/blob/master/docs/GenericsManifesto.md#generalized-existentials)
     
     // TODO Figure out the piece from above. Better than separate sets.
-    var sphereSet: Set<Sphere>
-    var planeSet: Set<Plane>
+    var sphereSet = Set<Sphere>()
+    var planeSet = Set<Plane>()
     
-    init(screen: Screen, screenU: Vector, screenV: Vector, eye: Point, sphereSet: Set<Sphere>, planeSet: Set<Plane>) {
+    init(screen: Screen, eye: Point) {
         self.screen = screen
         self.eye = eye
-        self.sphereSet = sphereSet
-        self.planeSet = planeSet
     }
     
     func trace() {
@@ -30,22 +28,21 @@ class Scene {
             for y in 0...screen.numberOfPixelsTall - 1 {
                 let pixelLocation: Point = screen.worldCoordinateFor(pixelX: x, pixelY: y)
                 let ray: Ray = Ray(emissionPoint: eye, directionVector: Vector(point1: eye, point2: pixelLocation))
-                var spheresIntersected = Array<(Array<Point>, Sphere)>()
-                var planesIntersected = Array<(Array<Point>, Plane)>()
                 
-                var nearestObject: (Array<Point>, SceneObject)
+                let dummySphere = Sphere(radius: 0.0, worldPosition: Point(Double.infinity, Double.infinity, Double.infinity), red: 0, green: 0, blue: 0)
+                var nearestSphere: (Double, Sphere) = (Double.infinity, dummySphere)
                 for sphere in sphereSet {
-                    let intersectionPoints = sphere.isIntersectedBy(ray: ray)
-                    if intersectionPoints.count > 0 {
-                        spheresIntersected.append((intersectionPoints, sphere))
+                    let roots = sphere.getRootsWith(ray: ray)
+                    // TODO Use the intersection location to find the color at that point (assuming the objects have varying colors).
+                    if roots.count > 0 {
+                        for root in roots {
+                            if root < nearestSphere.0 {
+                                nearestSphere = (root, sphere)
+                            }
+                        }
                     }
                 }
-                for plane in planeSet {
-                    let intersectionPoints = plane.isIntersectedBy(ray: ray)
-                    if intersectionPoints.count > 0 {
-                        planesIntersected.append((intersectionPoints, plane))
-                    }
-                }
+                screen.insertColorAtPixel(x: Int(x), y: Int(y), red: nearestSphere.1.red, green: nearestSphere.1.green, blue: nearestSphere.1.blue)
             }
         }
     }

@@ -10,15 +10,19 @@ import Foundation
 
 struct Sphere: SceneObject, CustomStringConvertible {
     let radius: Double
+    let red, green, blue: UInt8
     var worldPosition: Point
     var description: String { return "radius: \(radius), worldPosition: \(worldPosition)" }
     
-    init(radius: Double, worldPosition: Point) {
+    init(radius: Double, worldPosition: Point, red: UInt8, green: UInt8, blue: UInt8) {
         self.radius = radius
         self.worldPosition = worldPosition
+        self.red = red
+        self.green = green
+        self.blue = blue
     }
     
-    func isIntersectedBy(ray: Ray) -> Array<Point> {
+    func getIntersectionPointsWith(ray: Ray) -> Array<Point> {
         let eMinusO = ray.emissionPoint - worldPosition
         let a = ray.directionVector.dot(ray.directionVector)
         let b = (ray.directionVector * 2.0).dot(eMinusO)
@@ -42,5 +46,25 @@ struct Sphere: SceneObject, CustomStringConvertible {
         }
     }
     
+    func getRootsWith(ray: Ray) -> Array<Double> {
+        let eMinusO = ray.emissionPoint - worldPosition
+        let a = ray.directionVector.dot(ray.directionVector)
+        let b = (ray.directionVector * 2.0).dot(eMinusO)
+        let c = (eMinusO).dot(eMinusO) - radius * radius
+        let h = (b * b) - (4.0 * a * c)
+        
+        if h < 0 {  // Ray misses sphere.
+            return []
+        }
+        else if h == 0 { // Ray is tangent to sphere.
+            return [-b / (2.0 * a)]
+        }
+        else {  // Ray intersects sphere 2X. h > 0
+            let denominatorFraction = 1.0 / (2.0 * a)
+            let firstRoot = (-b + sqrt(h)) * denominatorFraction
+            let secondRoot = (-b - sqrt(h)) * denominatorFraction
+            return [firstRoot, secondRoot]
+        }
+    }
     
 }

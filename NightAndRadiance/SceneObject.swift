@@ -10,7 +10,8 @@ import Foundation
 
 protocol SceneObject: Hashable {
     var worldPosition: Point { get set }
-    func isIntersectedBy(ray: Ray) -> Array<Point>
+    func getIntersectionPointsWith(ray: Ray) -> Array<Point>
+    func getRootsWith(ray: Ray) -> Array<Double>
     
 //    static func == (rhs: SceneObject, lhs: SceneObject) -> Bool {
 ////        if rhs.worldPositionX == lhs.worldPositionX &&
