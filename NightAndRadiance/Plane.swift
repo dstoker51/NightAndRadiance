@@ -30,12 +30,12 @@ struct Plane: SceneObject {
         }
     }
     
-    func isIntersectedBy(ray: Ray) -> (Bool, Array<Point>) {
+    func isIntersectedBy(ray: Ray) -> Array<Point> {
         let dDotN = ray.directionVector.dot(normal)
         
         // Ray parallel to plane.
         if dDotN.isZero {
-            return (false, [])
+            return []
         }
         
         // Calculate intersection point.
@@ -43,6 +43,6 @@ struct Plane: SceneObject {
         let intersectionPoint = ray.emissionPoint + ray.directionVector * root
         
         // Infinite plane and ray not parallel. Guaranteed intersection.
-        return (true, [intersectionPoint])
+        return [intersectionPoint]
     }
 }

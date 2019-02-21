@@ -15,6 +15,8 @@ struct Screen {
     var worldPosition: Point
     var pixelWidth: Double
     var pixelHeight: Double
+    var numberOfPixelsWide: UInt32
+    var numberOfPixelsTall: UInt32
     
     init(screenU: Vector, screenV: Vector, worldPosition: Point, numberOfPixelsWide: UInt32, numberOfPixelsTall: UInt32) {
         self.screenU = screenU
@@ -31,9 +33,19 @@ struct Screen {
         width = screenU.magnitude
         height = screenV.magnitude
         screenCenter = Point(Double(width) / 2.0, Double(height) / 2.0, 0.0)
+        self.numberOfPixelsWide = numberOfPixelsWide
+        self.numberOfPixelsTall = numberOfPixelsTall
         pixelWidth = width / Double(numberOfPixelsWide)
         pixelHeight = height / Double(numberOfPixelsTall)
     }
     
-    
+    func worldCoordinateFor(pixelX: UInt32, pixelY: UInt32) -> Point {
+        if pixelX > numberOfPixelsWide || pixelY > numberOfPixelsTall {
+            return Point(-1.0, -1.0, worldPosition.z)
+        }
+        
+        let pointX: Double = pixelWidth * Double(pixelX - 1) + pixelWidth / 2.0   // Center of the pixel.
+        let pointY: Double = pixelHeight * Double(pixelY - 1) + pixelHeight / 2.0   // Center of the pixel.
+        return Point(pointX, pointY, worldPosition.z)
+    }
 }

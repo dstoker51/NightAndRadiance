@@ -38,6 +38,10 @@ struct Vector: Hashable {
     init(r: Double, theta1: Double, theta2 : Double) {
         self.init(r: r, theta1: theta1, theta2: theta2, w: 1.0)
     }
+    
+    init(point1: Point, point2: Point) {
+        self.init(x: point1.x + point2.x, y: point1.y + point2.y, z: point1.z + point2.z)
+    }
 
     init(_ vector: Vector) {
         self.init(x: vector.x, y: vector.y, z: vector.z, w: vector.w)

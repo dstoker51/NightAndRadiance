@@ -18,7 +18,7 @@ struct Sphere: SceneObject, CustomStringConvertible {
         self.worldPosition = worldPosition
     }
     
-    func isIntersectedBy(ray: Ray) -> (Bool, Array<Point>) {
+    func isIntersectedBy(ray: Ray) -> Array<Point> {
         let eMinusO = ray.emissionPoint - worldPosition
         let a = ray.directionVector.dot(ray.directionVector)
         let b = (ray.directionVector * 2.0).dot(eMinusO)
@@ -26,11 +26,11 @@ struct Sphere: SceneObject, CustomStringConvertible {
         let h = (b * b) - (4.0 * a * c)
         
         if h < 0 {  // Ray misses sphere.
-            return (false, [])
+            return []
         }
         else if h == 0 { // Ray is tangent to sphere.
             let point = ray.emissionPoint + ray.directionVector * (-b / (2.0 * a))
-            return (true, [point])
+            return [point]
         }
         else {  // Ray intersects sphere 2X. h > 0
             let denominatorFraction = 1.0 / (2.0 * a)
@@ -38,7 +38,7 @@ struct Sphere: SceneObject, CustomStringConvertible {
             let secondRoot = (-b - sqrt(h)) * denominatorFraction
             let firstIntersectionPoint = ray.emissionPoint + ray.directionVector * firstRoot
             let secondIntersectionPoint = ray.emissionPoint + ray.directionVector * secondRoot
-            return (true, [firstIntersectionPoint, secondIntersectionPoint])
+            return [firstIntersectionPoint, secondIntersectionPoint]
         }
     }
     
