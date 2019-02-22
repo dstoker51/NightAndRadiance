@@ -10,16 +10,15 @@ import Foundation
 
 struct Screen {
     var width: Double = 0.0, height: Double = 0.0
-    var screenCenter = Point(0.0, 0.0, 0.0)
     var screenU, screenV : Vector
     var worldPosition: Point
     var pixelWidth: Double
     var pixelHeight: Double
-    var numberOfPixelsWide: UInt32
-    var numberOfPixelsTall: UInt32
-    var raster = Array(repeating: Array<UInt8>(repeating: 0, count: 3), count: 3)
+    var widthInPixels: UInt32
+    var heightInPixels: UInt32
+    var raster: Array<Array<UInt8>>
     
-    init(screenU: Vector, screenV: Vector, worldPosition: Point, numberOfPixelsWide: UInt32, numberOfPixelsTall: UInt32) {
+    init(screenU: Vector, screenV: Vector, worldPosition: Point, widthInPixels: UInt32, heightInPixels: UInt32) {
         self.screenU = screenU
         self.screenV = screenV
         self.worldPosition = worldPosition
@@ -31,27 +30,30 @@ struct Screen {
             // Defaults will be used.
         }
         
-        width = screenU.magnitude
-        height = screenV.magnitude
-        screenCenter = Point(Double(width) / 2.0, Double(height) / 2.0, 0.0)
-        self.numberOfPixelsWide = numberOfPixelsWide
-        self.numberOfPixelsTall = numberOfPixelsTall
-        pixelWidth = width / Double(numberOfPixelsWide)
-        pixelHeight = height / Double(numberOfPixelsTall)
+        width = screenU.magnitude * 2.0
+        height = screenV.magnitude * 2.0
+        self.widthInPixels = widthInPixels
+        self.heightInPixels = heightInPixels
+        pixelWidth = width / Double(widthInPixels)
+        pixelHeight = height / Double(heightInPixels)
+        raster = Array(repeating: Array<UInt8>(repeating: 0, count: 3), count: Int(widthInPixels * heightInPixels))
     }
     
-    func worldCoordinateFor(pixelX: UInt32, pixelY: UInt32) -> Point {
-        if pixelX > numberOfPixelsWide || pixelY > numberOfPixelsTall {
-            return Point(-1.0, -1.0, worldPosition.z)
+    func worldCoordinateFor(pixelU: UInt32, pixelV: UInt32) -> Point {
+        if pixelU > widthInPixels || pixelV > heightInPixels {
+            return Point(-1.0, -1.0, -1.0)
         }
         
-        let pointX: Double = pixelWidth * Double(pixelX - 1) + pixelWidth / 2.0   // Center of the pixel.
-        let pointY: Double = pixelHeight * Double(pixelY - 1) + pixelHeight / 2.0   // Center of the pixel.
-        return Point(pointX, pointY, worldPosition.z)
+        let uNDC = (Double(pixelU) + 0.5) / Double(widthInPixels) // 0 -> 1 (Normalized device coordinates)
+        let vNDC = (Double(pixelV) + 0.5) / Double(heightInPixels) // 0 -> 1 (Normalized device coordinates)
+        let uScreenCoords: Double = 2.0 * uNDC - 1    // -1 to 1 (left to right)
+        let vScreenCoords: Double = 1 - 2.0 * vNDC    // -1 to 1 (top to bottom)
+        // TODO Implement camera-to-world matrix. This only works in the standard coord system for now.
+        return (screenU * uScreenCoords) + (screenV * vScreenCoords) + worldPosition
     }
     
     mutating func insertColorAtPixel(x: Int, y: Int, red: UInt8, green: UInt8, blue: UInt8) {
-        let index = y * Int(numberOfPixelsWide) + x
+        let index = y * Int(widthInPixels) + x
         raster[index][0] = red
         raster[index][1] = green
         raster[index][2] = blue

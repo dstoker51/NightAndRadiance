@@ -24,10 +24,11 @@ class Scene {
     }
     
     func trace() {
-        for x in 0...screen.numberOfPixelsWide - 1 {
-            for y in 0...screen.numberOfPixelsTall - 1 {
-                let pixelLocation: Point = screen.worldCoordinateFor(pixelX: x, pixelY: y)
+        for x in 0...screen.widthInPixels - 1 {
+            for y in 0...screen.heightInPixels - 1 {
+                let pixelLocation: Point = screen.worldCoordinateFor(pixelU: x, pixelV: y)
                 let ray: Ray = Ray(emissionPoint: eye, directionVector: Vector(point1: eye, point2: pixelLocation))
+//                print(ray)
                 
                 let dummySphere = Sphere(radius: 0.0, worldPosition: Point(Double.infinity, Double.infinity, Double.infinity), red: 0, green: 0, blue: 0)
                 var nearestSphere: (Double, Sphere) = (Double.infinity, dummySphere)
@@ -36,13 +37,15 @@ class Scene {
                     // TODO Use the intersection location to find the color at that point (assuming the objects have varying colors).
                     if roots.count > 0 {
                         for root in roots {
-                            if root < nearestSphere.0 {
+                            if root > 0 && root < nearestSphere.0 {
                                 nearestSphere = (root, sphere)
                             }
                         }
                     }
                 }
-                screen.insertColorAtPixel(x: Int(x), y: Int(y), red: nearestSphere.1.red, green: nearestSphere.1.green, blue: nearestSphere.1.blue)
+                if nearestSphere.0 != Double.infinity {
+                    screen.insertColorAtPixel(x: Int(x), y: Int(y), red: nearestSphere.1.red, green: nearestSphere.1.green, blue: nearestSphere.1.blue)
+                }
             }
         }
     }

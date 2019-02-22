@@ -40,7 +40,7 @@ struct Vector: Hashable {
     }
     
     init(point1: Point, point2: Point) {
-        self.init(x: point1.x + point2.x, y: point1.y + point2.y, z: point1.z + point2.z)
+        self.init(x: point2.x - point1.x, y: point2.y - point1.y, z: point2.z - point1.z)
     }
 
     init(_ vector: Vector) {
