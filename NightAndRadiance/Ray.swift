@@ -11,14 +11,12 @@ import Foundation
 struct Ray: Hashable {
     let emissionPoint: Point
     let directionVector: Vector
+    var depth: Int
     
-    init(emissionPoint: Point, directionVector: Vector) {
+    init(emissionPoint: Point, directionVector: Vector, depth: Int) {
         self.emissionPoint = emissionPoint
         self.directionVector = directionVector
-    }
-    
-    init(originX: Double, originY: Double, originZ: Double, vectorX: Double, vectorY: Double, vectorZ: Double) {
-        self.init(emissionPoint: Point(originX, originY, originZ), directionVector: Vector(x: vectorX, y: vectorY, z: vectorZ))
+        self.depth = depth
     }
 }
 
@@ -28,6 +26,6 @@ func == (lhs: Ray, rhs: Ray) -> Bool {
 
 func * (ray: Ray, scalar: Double) -> Ray {
     if scalar.isNaN { return ray }
-    return Ray(emissionPoint: ray.emissionPoint, directionVector: ray.directionVector * scalar)
+    return Ray(emissionPoint: ray.emissionPoint, directionVector: ray.directionVector * scalar, depth: ray.depth)
 }
 

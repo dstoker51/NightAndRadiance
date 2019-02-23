@@ -68,10 +68,6 @@ struct Sphere: SceneObject, CustomStringConvertible {
     }
     
     func calculateNormalAt(point: Point) -> Vector {
-        let vector = point - worldPosition
-        if vector.magnitude == radius {  // Make sure the point lies on the surface of the sphere.
-            return vector.normalized()
-        }
-        return Vector(x: 0.0, y: 0.0, z: 0.0)
+        return (point - worldPosition).normalized()
     }
 }
