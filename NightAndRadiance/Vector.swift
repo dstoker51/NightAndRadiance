@@ -8,8 +8,9 @@
 
 import Foundation
 
-struct Vector: Hashable {
+struct Vector: Hashable, CustomStringConvertible {
     var x, y, z, w: Double
+    var description: String { return "<x: \(x), y: \(y), z: \(z), w: \(w)>" }
 
     // Uses homogenous coordiate systems, i.e (x, y, z, w) represents (x/w, y/w, z/w).
     init(x: Double, y: Double, z: Double, w: Double) {

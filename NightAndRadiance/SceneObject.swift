@@ -10,16 +10,10 @@ import Foundation
 
 protocol SceneObject: Hashable {
     var worldPosition: Point { get set }
+    var red: UInt8 { get set }
+    var green: UInt8 { get set }
+    var blue: UInt8 { get set }
     func getIntersectionPointsWith(ray: Ray) -> Array<Point>
     func getRootsWith(ray: Ray) -> Array<Double>
-    
-//    static func == (rhs: SceneObject, lhs: SceneObject) -> Bool {
-////        if rhs.worldPositionX == lhs.worldPositionX &&
-////            rhs.worldPositionY == lhs.worldPositionY &&
-////            rhs.worldPositionZ == lhs.worldPositionZ {
-////            return true
-////        }
-//        return (rhs === lhs ? true : false)
-//    }
 }
 

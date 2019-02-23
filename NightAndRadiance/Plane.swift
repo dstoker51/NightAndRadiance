@@ -12,22 +12,24 @@ struct Plane: SceneObject {
     let vectorU: Vector
     let vectorV: Vector
     let normal: Vector
+    var red, green, blue: UInt8
     var worldPosition: Point
     var description: String { return "vectorU: \(vectorU), vectorV: \(vectorV), worldPosition: \(worldPosition)" }
     
-    init(vectorU: Vector, vectorV: Vector, worldPosition: Point) {
+    init(vectorU: Vector, vectorV: Vector, worldPosition: Point, red: UInt8, green: UInt8, blue: UInt8) {
         if vectorU.dot(vectorV) != 0 {
             self.vectorU = Vector(x: 0.0, y: 0.0, z: 0.0)
             self.vectorV = Vector(x: 0.0, y: 1.0, z: 0.0)
-            self.normal = self.vectorU.cross(self.vectorV).normalized()
-            self.worldPosition = worldPosition
         }
         else {
             self.vectorU = vectorU
             self.vectorV = vectorV
-            self.normal = self.vectorU.cross(self.vectorV).normalized()
-            self.worldPosition = worldPosition
         }
+        self.normal = self.vectorU.cross(self.vectorV).normalized()
+        self.worldPosition = worldPosition
+        self.red = red
+        self.green = green
+        self.blue = blue
     }
     
     func getIntersectionPointsWith(ray: Ray) -> Array<Point> {

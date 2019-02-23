@@ -10,7 +10,7 @@ import Foundation
 
 struct Sphere: SceneObject, CustomStringConvertible {
     let radius: Double
-    let red, green, blue: UInt8
+    var red, green, blue: UInt8
     var worldPosition: Point
     var description: String { return "radius: \(radius), worldPosition: \(worldPosition)" }
     

@@ -14,7 +14,7 @@ class Scene {
     let eye: Eye
 //    var objectSet: Set<SceneObject> // Swift does yet have generalized existentials (see https://github.com/apple/swift/blob/master/docs/GenericsManifesto.md#generalized-existentials)
     
-    // TODO Figure out the piece from above. Better than separate sets.
+    // TODO Figure out how to generalize this.
     var sphereSet = Set<Sphere>()
     var planeSet = Set<Plane>()
     
@@ -28,7 +28,7 @@ class Scene {
             for y in 0...screen.heightInPixels - 1 {
                 let pixelLocation: Point = screen.worldCoordinateFor(pixelU: x, pixelV: y)
                 let ray: Ray = Ray(emissionPoint: eye, directionVector: Vector(point1: eye, point2: pixelLocation))
-//                print(ray)
+                print(ray)
                 
                 let dummySphere = Sphere(radius: 0.0, worldPosition: Point(Double.infinity, Double.infinity, Double.infinity), red: 0, green: 0, blue: 0)
                 var nearestSphere: (Double, Sphere) = (Double.infinity, dummySphere)
@@ -49,11 +49,4 @@ class Scene {
             }
         }
     }
-    
-//    convenience init(){
-//        let screen = Screen(screenWidth: 1000, screenHeight: 1000, screenU: Vector(x: 1.0, y: 0.0, z: 0.0), screenV: Vector(x: 0.0, y: 0.0, z: 1.0))
-//        let eye = Eye(emissionPoint: <#T##Point#>, directionVector: <#T##Vector#>)
-//
-//        self.init(screen, )
-//    }
 }
