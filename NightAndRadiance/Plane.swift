@@ -32,7 +32,7 @@ struct Plane: SceneObject {
         self.blue = blue
     }
     
-    func getIntersectionPointsWith(ray: Ray) -> Array<Point> {
+    func calculateIntersectionPointsWith(ray: Ray) -> Array<Point> {
         let dDotN = ray.directionVector.dot(normal)
         
         // Ray parallel to plane.
@@ -48,7 +48,7 @@ struct Plane: SceneObject {
         return [intersectionPoint]
     }
     
-    func getRootsWith(ray: Ray) -> Array<Double> {
+    func calculateRootsWith(ray: Ray) -> Array<Double> {
         let dDotN = ray.directionVector.dot(normal)
         
         // Ray parallel to plane.
@@ -60,5 +60,12 @@ struct Plane: SceneObject {
         // Calculate the root.
         let root = (worldPosition - ray.emissionPoint).dot(normal) / dDotN
         return [root]
+    }
+    
+    func calculateNormalAt(point: Point) -> Vector {
+        if (point - worldPosition).dot(normal) == 0 {   // Make sure the point lies on the plane.
+            return normal
+        }
+        return Vector(x: 0.0, y: 0.0, z: 0.0)
     }
 }

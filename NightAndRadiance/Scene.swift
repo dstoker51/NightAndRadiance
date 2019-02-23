@@ -33,7 +33,7 @@ class Scene {
                 let dummySphere = Sphere(radius: 0.0, worldPosition: Point(Double.infinity, Double.infinity, Double.infinity), red: 0, green: 0, blue: 0)
                 var nearestSphere: (Double, Sphere) = (Double.infinity, dummySphere)
                 for sphere in sphereSet {
-                    let roots = sphere.getRootsWith(ray: ray)
+                    let roots = sphere.calculateRootsWith(ray: ray)
                     // TODO Use the intersection location to find the color at that point (assuming the objects have varying colors).
                     if roots.count > 0 {
                         for root in roots {

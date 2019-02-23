@@ -71,13 +71,6 @@ struct Vector: Hashable, CustomStringConvertible {
         let scale = 1/magnitude
         return Vector(x: x * scale, y: y * scale, z: z * scale)
     }
-    
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(x)
-        hasher.combine(y)
-        hasher.combine(z)
-        hasher.combine(w)
-    }
 }
 
 func +(v1: Vector, v2: Vector) -> Vector {
@@ -104,8 +97,3 @@ func -(vector: Vector, point: Point) -> Point {
 func *(vector: Vector, scalar: Double) -> Vector {
     return Vector(x: vector.x * scalar, y: vector.y * scalar, z: vector.z * scalar)
 }
-
-func == (v1: Vector, v2: Vector) -> Bool {
-    return (v1.x == v2.x && v1.y == v2.y && v1.z == v2.z ? true : false)
-}
-

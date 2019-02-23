@@ -22,7 +22,7 @@ struct Sphere: SceneObject, CustomStringConvertible {
         self.blue = blue
     }
     
-    func getIntersectionPointsWith(ray: Ray) -> Array<Point> {
+    func calculateIntersectionPointsWith(ray: Ray) -> Array<Point> {
         let eMinusO = ray.emissionPoint - worldPosition
         let a = ray.directionVector.dot(ray.directionVector)
         let b = (ray.directionVector * 2.0).dot(eMinusO)
@@ -46,7 +46,7 @@ struct Sphere: SceneObject, CustomStringConvertible {
         }
     }
     
-    func getRootsWith(ray: Ray) -> Array<Double> {
+    func calculateRootsWith(ray: Ray) -> Array<Double> {
         let eMinusO = ray.emissionPoint - worldPosition
         let a = ray.directionVector.dot(ray.directionVector)
         let b = (ray.directionVector * 2.0).dot(eMinusO)
@@ -67,4 +67,11 @@ struct Sphere: SceneObject, CustomStringConvertible {
         }
     }
     
+    func calculateNormalAt(point: Point) -> Vector {
+        let vector = point - worldPosition
+        if vector.magnitude == radius {  // Make sure the point lies on the surface of the sphere.
+            return vector.normalized()
+        }
+        return Vector(x: 0.0, y: 0.0, z: 0.0)
+    }
 }

@@ -13,7 +13,8 @@ protocol SceneObject: Hashable {
     var red: UInt8 { get set }
     var green: UInt8 { get set }
     var blue: UInt8 { get set }
-    func getIntersectionPointsWith(ray: Ray) -> Array<Point>
-    func getRootsWith(ray: Ray) -> Array<Double>
+    func calculateIntersectionPointsWith(ray: Ray) -> Array<Point>
+    func calculateRootsWith(ray: Ray) -> Array<Double>
+    func calculateNormalAt(point: Point) -> Vector
 }
 
