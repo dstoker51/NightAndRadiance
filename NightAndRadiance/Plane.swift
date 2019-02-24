@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Plane: SceneObject {
+struct Plane: SceneObject, Strikeable {
     let vectorU: Vector
     let vectorV: Vector
     let normal: Vector

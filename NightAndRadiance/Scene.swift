@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Scene {
+struct Scene {
     typealias Eye = Point
     typealias LightSource = Point
     var screen: Screen

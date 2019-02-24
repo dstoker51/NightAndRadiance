@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Screen {
+struct Screen: SceneObject {
     var width: Double = 0.0, height: Double = 0.0
     var screenU, screenV : Vector
     var worldPosition: Point
@@ -16,6 +16,9 @@ struct Screen {
     var pixelHeight: Double
     var widthInPixels: UInt32
     var heightInPixels: UInt32
+    var red: UInt8 = 255
+    var green: UInt8 = 255
+    var blue: UInt8 = 255
     var raster: Array<Array<UInt8>>
     
     init(screenU: Vector, screenV: Vector, worldPosition: Point, widthInPixels: UInt32, heightInPixels: UInt32) {

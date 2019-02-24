@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Sphere: SceneObject, CustomStringConvertible {
+struct Sphere: SceneObject, Strikeable, CustomStringConvertible {
     let radius: Double
     var red, green, blue: UInt8
     var worldPosition: Point
