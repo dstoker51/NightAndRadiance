@@ -23,9 +23,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         let width: UInt32 = 1000
         let height: UInt32 = 1000
-        let screen = Screen(screenU: Vector(x: 1.0, y: 0.0, z: 0.0), screenV: Vector(x: 0.0, y: 1.0, z: 0.0), worldPosition: Point(0.0, 0.0, 0.0), widthInPixels: width, heightInPixels: height)
+        var screen = Screen(screenU: Vector(x: 1.0, y: 0.0, z: 0.0), screenV: Vector(x: 0.0, y: 1.0, z: 0.0), worldPosition: Point(0.0, 0.0, 0.0), widthInPixels: width, heightInPixels: height)
         
-        let scene = Scene(screen: screen, eye: Point(0.0, 0.0, 1.25))
+        var scene = Scene(screen: screen, eye: Point(0.0, 0.0, 1.25))
         scene.objectSet.insert(Sphere(radius: 1.0, worldPosition: Point(0.0, 0.0, -3.0), red: 255, green: 0, blue: 0))
         scene.objectSet.insert(Sphere(radius: 1.0, worldPosition: Point(3.0, 3.0, -5.0), red: 0, green: 255, blue: 0))
         scene.objectSet.insert(Sphere(radius: 1.0, worldPosition: Point(-3.0, 3.0, -5.0), red: 0, green: 0, blue: 255))

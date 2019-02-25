@@ -8,6 +8,7 @@
 
 import Foundation
 
+/// A structure made up of an emission point and a direction vector. Used for ray tracing.
 struct Ray: Hashable {
     let emissionPoint: Point
     let directionVector: Vector

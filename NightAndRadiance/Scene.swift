@@ -57,7 +57,7 @@ struct Scene {
         return false
     }
     
-    func castRays() {
+    mutating func castRays() {
         for x in 0...screen.widthInPixels - 1 {
             for y in 0...screen.heightInPixels - 1 {
                 let pixelLocation: Point = screen.worldCoordinateFor(pixelU: x, pixelV: y)

@@ -8,6 +8,7 @@
 
 import Foundation
 
+/// A 3D point. 
 struct Point: Hashable, CustomStringConvertible {
     var x, y, z: Double
     var description: String { return "(x: \(x), y: \(y), z: \(z))" }
@@ -24,18 +25,6 @@ struct Point: Hashable, CustomStringConvertible {
             self.z = z
         }
     }
-}
-
-func +(point: Point, vector: Vector) -> Point {
-    return Point(point.x + vector.x, point.y + vector.y, point.z + vector.z)
-}
-
-func -(point: Point, vector: Vector) -> Point {
-    return Point(point.x - vector.x, point.y - vector.y, point.z - vector.z)
-}
-
-func -(lhs: Point, rhs: Point) -> Vector {
-    return Vector(x: lhs.x - rhs.x, y: lhs.y - rhs.y, z: lhs.z - rhs.z)
 }
 
 func == (lhs: Point, rhs: Point) -> Bool {
