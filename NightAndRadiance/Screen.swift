@@ -16,10 +16,7 @@ struct Screen: SceneObject {
     var pixelHeight: Double
     var widthInPixels: UInt32
     var heightInPixels: UInt32
-    var red: UInt8 = 255
-    var green: UInt8 = 255
-    var blue: UInt8 = 255
-    var raster: Array<Array<UInt8>>
+    var raster: Array<Array<Int>>
     
     init(screenU: Vector, screenV: Vector, worldPosition: Point, widthInPixels: UInt32, heightInPixels: UInt32) {
         self.screenU = screenU
@@ -39,7 +36,7 @@ struct Screen: SceneObject {
         self.heightInPixels = heightInPixels
         pixelWidth = width / Double(widthInPixels)
         pixelHeight = height / Double(heightInPixels)
-        raster = Array(repeating: Array<UInt8>(repeating: 0, count: 3), count: Int(widthInPixels * heightInPixels))
+        raster = Array(repeating: Array<Int>(repeating: 0, count: 3), count: Int(widthInPixels * heightInPixels))
     }
     
     func worldCoordinateFor(pixelU: UInt32, pixelV: UInt32) -> Point {
@@ -55,10 +52,10 @@ struct Screen: SceneObject {
         return (screenU * uScreenCoords) + (screenV * vScreenCoords) + worldPosition
     }
     
-    mutating func insertColorAtPixel(x: Int, y: Int, red: UInt8, green: UInt8, blue: UInt8) {
+    mutating func insertColorAtPixel(x: Int, y: Int, material: Material) {
         let index = y * Int(widthInPixels) + x
-        raster[index][0] = red
-        raster[index][1] = green
-        raster[index][2] = blue
+        raster[index][0] = material.red
+        raster[index][1] = material.green
+        raster[index][2] = material.blue
     }
 }

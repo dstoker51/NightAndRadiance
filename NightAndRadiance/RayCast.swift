@@ -9,6 +9,6 @@
 import Foundation
 
 struct RayCast {
-    let ray: Ray
+    let rayArray: [Ray]
     var depth: Int
 }

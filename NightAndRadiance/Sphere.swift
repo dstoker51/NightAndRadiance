@@ -10,16 +10,14 @@ import Foundation
 
 struct Sphere: SceneObject, Strikeable, CustomStringConvertible {
     let radius: Double
-    var red, green, blue: UInt8
+    var material: Material
     var worldPosition: Point
     var description: String { return "radius: \(radius), worldPosition: \(worldPosition)" }
     
-    init(radius: Double, worldPosition: Point, red: UInt8, green: UInt8, blue: UInt8) {
+    init(radius: Double, worldPosition: Point, material: Material) {
         self.radius = radius
         self.worldPosition = worldPosition
-        self.red = red
-        self.green = green
-        self.blue = blue
+        self.material = material
     }
     
     func calculateIntersectionPointsWith(ray: Ray) -> Array<Point> {

@@ -10,8 +10,5 @@ import Foundation
 
 protocol SceneObject: Hashable {
     var worldPosition: Point { get set }
-    var red: UInt8 { get set }
-    var green: UInt8 { get set }
-    var blue: UInt8 { get set }
 }
 

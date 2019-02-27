@@ -9,6 +9,7 @@
 import Foundation
 
 protocol Strikeable {
+    var material: Material { get set }
     func calculateIntersectionPointsWith(ray: Ray) -> Array<Point>
     func calculateRootsWith(ray: Ray) -> Array<Double>
     func calculateNormalAt(point: Point) -> Vector

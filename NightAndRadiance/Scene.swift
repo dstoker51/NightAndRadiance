@@ -62,13 +62,14 @@ struct Scene {
             for y in 0...screen.heightInPixels - 1 {
                 let pixelLocation: Point = screen.worldCoordinateFor(pixelU: x, pixelV: y)
                 let ray: Ray = Ray(emissionPoint: eye, directionVector: Vector(point1: eye, point2: pixelLocation), depth: 0)
-                
                 let nearestObject = trace(ray: ray)
+                
+                 // TODO: SLOOOOOOOOW. Need a better fix for the inheritance issue
                 if let nearestSphere = nearestObject?.1 as? Sphere {
-                    screen.insertColorAtPixel(x: Int(x), y: Int(y), red: nearestSphere.red, green: nearestSphere.green, blue: nearestSphere.blue)
+                    screen.insertColorAtPixel(x: Int(x), y: Int(y), material: Material(material: nearestSphere.material))
                 }
                 else if let nearestPlane = nearestObject?.1 as? Plane {
-                    screen.insertColorAtPixel(x: Int(x), y: Int(y), red: nearestPlane.red, green: nearestPlane.green, blue: nearestPlane.blue)
+                    screen.insertColorAtPixel(x: Int(x), y: Int(y), material: Material(material: nearestPlane.material))
                 }
             }
         }

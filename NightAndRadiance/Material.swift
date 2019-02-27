@@ -10,7 +10,7 @@ import Foundation
 
 /// Contains all properties required to define the physical aspects of a ray-traceable object.
 /// This includes color, reflective properties, refractive properties, etc.
-struct Material {
+struct Material: Hashable {
     let red: Int
     let green: Int
     let blue: Int
@@ -20,6 +20,9 @@ struct Material {
         self.red = red
         self.blue = blue
         self.green = green
-        
+    }
+    
+    init(material: Material) {
+        self.init(red: material.red, blue: material.blue, green: material.green)
     }
 }
