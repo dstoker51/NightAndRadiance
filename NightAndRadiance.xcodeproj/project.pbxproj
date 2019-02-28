@@ -25,7 +25,7 @@
 		93DB6133222207D000DBA7CB /* RayCast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93DB6132222207D000DBA7CB /* RayCast.swift */; };
 		93DB613522232C7C00DBA7CB /* Strikeable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93DB613422232C7C00DBA7CB /* Strikeable.swift */; };
 		93DB61372223341D00DBA7CB /* Vector+Point.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93DB61362223341D00DBA7CB /* Vector+Point.swift */; };
-		93DB613922271FB900DBA7CB /* Tree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93DB613822271FB900DBA7CB /* Tree.swift */; };
+		93DB613922271FB900DBA7CB /* RayTree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93DB613822271FB900DBA7CB /* RayTree.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,7 +62,7 @@
 		93DB6132222207D000DBA7CB /* RayCast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RayCast.swift; sourceTree = "<group>"; };
 		93DB613422232C7C00DBA7CB /* Strikeable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Strikeable.swift; sourceTree = "<group>"; };
 		93DB61362223341D00DBA7CB /* Vector+Point.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Vector+Point.swift"; sourceTree = "<group>"; };
-		93DB613822271FB900DBA7CB /* Tree.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tree.swift; sourceTree = "<group>"; };
+		93DB613822271FB900DBA7CB /* RayTree.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RayTree.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -123,7 +123,7 @@
 				93DB613422232C7C00DBA7CB /* Strikeable.swift */,
 				93A6889C2211165C00985E09 /* Plane.swift */,
 				93A6889A2211162F00985E09 /* Sphere.swift */,
-				93DB613822271FB900DBA7CB /* Tree.swift */,
+				93DB613822271FB900DBA7CB /* RayTree.swift */,
 			);
 			path = NightAndRadiance;
 			sourceTree = "<group>";
@@ -245,7 +245,7 @@
 				9354770220559CD9006C23BA /* ViewController.swift in Sources */,
 				93DB61372223341D00DBA7CB /* Vector+Point.swift in Sources */,
 				93A6889D2211165C00985E09 /* Plane.swift in Sources */,
-				93DB613922271FB900DBA7CB /* Tree.swift in Sources */,
+				93DB613922271FB900DBA7CB /* RayTree.swift in Sources */,
 				93DB6133222207D000DBA7CB /* RayCast.swift in Sources */,
 				93A6889B2211162F00985E09 /* Sphere.swift in Sources */,
 				93DB61312221C83A00DBA7CB /* Material.swift in Sources */,
