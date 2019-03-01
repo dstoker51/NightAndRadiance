@@ -9,5 +9,6 @@
 import Foundation
 
 struct RayCast {
+    var aggregateColor: Color
     let rayTree: RayNode
 }

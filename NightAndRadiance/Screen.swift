@@ -54,8 +54,8 @@ struct Screen: SceneObject {
     
     mutating func insertColorAtPixel(x: Int, y: Int, material: Material) {
         let index = y * Int(widthInPixels) + x
-        raster[index][0] = material.red
-        raster[index][1] = material.green
-        raster[index][2] = material.blue
+        raster[index][0] = material.color.red
+        raster[index][1] = material.color.green
+        raster[index][2] = material.color.blue
     }
 }
