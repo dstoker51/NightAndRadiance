@@ -61,9 +61,6 @@ struct Plane: SceneObject, Strikeable {
     }
     
     func calculateNormalAt(point: Point) -> Vector {
-        if (point - worldPosition).dot(normal) == 0 {   // Make sure the point lies on the plane.
-            return normal
-        }
-        return Vector(x: 0.0, y: 0.0, z: 0.0)
+        return normal
     }
 }

@@ -13,12 +13,14 @@ struct RayCast: Hashable {
     let rayTree: RayNode
     let objectSet: Set<AnyHashable> // TODO: Use reference instead.
     let lightSources: [LightSource]   // TODO: Use reference instead.
+    let ambientLighting: Color
     let tThreshold = 0.00001    // Threshold to keep from intersecting self over and over due to floating point errors.
     
-    init(initialRay: Ray, objectSet: Set<AnyHashable>, lightSources: [LightSource]) {
+    init(initialRay: Ray, objectSet: Set<AnyHashable>, lightSources: [LightSource], ambientLighting: Color) {
         rayTree = RayNode(ray: initialRay)
         self.objectSet = objectSet
         self.lightSources = lightSources
+        self.ambientLighting = ambientLighting
     }
     
     func trace(ray: Ray, over: Set<AnyHashable>) -> (Double, AnyHashable)? {
