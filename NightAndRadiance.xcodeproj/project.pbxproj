@@ -27,6 +27,7 @@
 		93DB61372223341D00DBA7CB /* Vector+Point.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93DB61362223341D00DBA7CB /* Vector+Point.swift */; };
 		93DB613922271FB900DBA7CB /* RayTree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93DB613822271FB900DBA7CB /* RayTree.swift */; };
 		93DB613B2229D0D000DBA7CB /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93DB613A2229D0D000DBA7CB /* Color.swift */; };
+		93DB613D222F075800DBA7CB /* LightSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93DB613C222F075800DBA7CB /* LightSource.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,6 +66,7 @@
 		93DB61362223341D00DBA7CB /* Vector+Point.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Vector+Point.swift"; sourceTree = "<group>"; };
 		93DB613822271FB900DBA7CB /* RayTree.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RayTree.swift; sourceTree = "<group>"; };
 		93DB613A2229D0D000DBA7CB /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
+		93DB613C222F075800DBA7CB /* LightSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightSource.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -120,6 +122,7 @@
 				93D97E992200E212005F4252 /* Screen.swift */,
 				93D97E9B220E70FA005F4252 /* Scene.swift */,
 				93DB6132222207D000DBA7CB /* RayCast.swift */,
+				93DB613C222F075800DBA7CB /* LightSource.swift */,
 				93DB61302221C83A00DBA7CB /* Material.swift */,
 				93DB613A2229D0D000DBA7CB /* Color.swift */,
 				93D97E9D220E86A9005F4252 /* SceneObject.swift */,
@@ -258,6 +261,7 @@
 				93D97E9C220E70FA005F4252 /* Scene.swift in Sources */,
 				93D97E9E220E86A9005F4252 /* SceneObject.swift in Sources */,
 				93DB613522232C7C00DBA7CB /* Strikeable.swift in Sources */,
+				93DB613D222F075800DBA7CB /* LightSource.swift in Sources */,
 				93D97E9821FF6A6F005F4252 /* Ray.swift in Sources */,
 				93D97E9A2200E212005F4252 /* Screen.swift in Sources */,
 			);

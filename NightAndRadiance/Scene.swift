@@ -12,7 +12,7 @@ struct Scene {
     typealias Eye = Point
     var screen: Screen
     let eye: Eye
-    var lightSources = [Point]()
+    var lightSources = [LightSource]()
     var objectSet = Set<AnyHashable>()  // Swift doesn't have generalized existentials
                                         // See https://github.com/apple/swift/blob/master/docs/GenericsManifesto.md#generalized-existentials
     

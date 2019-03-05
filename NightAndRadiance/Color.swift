@@ -12,6 +12,8 @@ struct Color: Hashable {
     let red:   Int
     let green: Int
     let blue:  Int
+    static let min = 0.0
+    static let max = 255.0
     
     init(red: Int, green: Int, blue: Int) {
         self.red = red
