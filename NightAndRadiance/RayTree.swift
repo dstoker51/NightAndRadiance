@@ -10,6 +10,8 @@ import Foundation
 
 class RayNode: CustomStringConvertible {
     var ray: Ray
+    var intersectionPoint: Point?
+    var sceneObject: AnyHashable?
     var children: Set<RayNode> = []
     var depth = 0
     weak var parent: RayNode?
@@ -24,7 +26,12 @@ class RayNode: CustomStringConvertible {
     
     init(ray: Ray) {
         self.ray = ray
-        
+    }
+    
+    convenience init(ray: Ray, intersectionPoint: Point?, sceneObject: AnyHashable?) {
+        self.init(ray: ray)
+        self.intersectionPoint = intersectionPoint
+        self.sceneObject = sceneObject
     }
     
     func add(child: RayNode) {
