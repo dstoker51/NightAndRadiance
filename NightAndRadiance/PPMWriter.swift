@@ -21,7 +21,7 @@ struct PPMWriter {
         self.height = abs(height)
     }
     
-    func write(raster: Array<Array<Int>>) {
+    func write(raster: Array<Array<Double>>) {
         if raster.count != width * height {
             print("Raster must match width and height inputs.")
         }
@@ -37,7 +37,7 @@ struct PPMWriter {
         for y in 0...height - 1 {
             var line = ""
             for x in 0...width - 1 {
-                line.append(String(raster[y * width + x][0]) + " " + String(raster[y * width + x][1]) + " " + String(raster[y * width + x][2]))
+                line.append(String(Int(raster[y * width + x][0])) + " " + String(Int(raster[y * width + x][1])) + " " + String(Int(raster[y * width + x][2])))
                 if x != width - 1 {
                     line.append(" ")
                 }

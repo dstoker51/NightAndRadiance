@@ -14,6 +14,10 @@ struct Material: Hashable {
     let color: Color
 //    let refractionIndex: Double
     
+    init(red: Double, green: Double, blue: Double) {
+        self.color = Color(red: red, green: green, blue: blue)
+    }
+    
     init(red: Int, green: Int, blue: Int) {
         self.color = Color(red: red, green: green, blue: blue)
     }

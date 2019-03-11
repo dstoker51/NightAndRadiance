@@ -108,6 +108,7 @@
 		935476FE20559CD9006C23BA /* NightAndRadiance */ = {
 			isa = PBXGroup;
 			children = (
+				93D9392F222FAD3A00E49322 /* Unused */,
 				935476FF20559CD9006C23BA /* AppDelegate.swift */,
 				93A688A0221B88F600985E09 /* PPMWriter.swift */,
 				9354770120559CD9006C23BA /* ViewController.swift */,
@@ -129,7 +130,6 @@
 				93DB613422232C7C00DBA7CB /* Strikeable.swift */,
 				93A6889C2211165C00985E09 /* Plane.swift */,
 				93A6889A2211162F00985E09 /* Sphere.swift */,
-				93DB613822271FB900DBA7CB /* RayTree.swift */,
 			);
 			path = NightAndRadiance;
 			sourceTree = "<group>";
@@ -141,6 +141,14 @@
 				9354771420559CD9006C23BA /* Info.plist */,
 			);
 			path = NightAndRadianceTests;
+			sourceTree = "<group>";
+		};
+		93D9392F222FAD3A00E49322 /* Unused */ = {
+			isa = PBXGroup;
+			children = (
+				93DB613822271FB900DBA7CB /* RayTree.swift */,
+			);
+			path = Unused;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

@@ -10,17 +10,15 @@ import Foundation
 
 struct RayCast: Hashable {
     var aggregateColor: Color = Color(red: 0, green: 0, blue: 0)
-    let rayTree: RayNode
     let objectSet: Set<AnyHashable> // TODO: Use reference instead.
     let lightSources: [LightSource]   // TODO: Use reference instead.
-    let ambientLighting: Color
+    let initialRay: Ray
     let tThreshold = 0.00001    // Threshold to keep from intersecting self over and over due to floating point errors.
     
-    init(initialRay: Ray, objectSet: Set<AnyHashable>, lightSources: [LightSource], ambientLighting: Color) {
-        rayTree = RayNode(ray: initialRay)
+    init(initialRay: Ray, objectSet: Set<AnyHashable>, lightSources: [LightSource]) {
+        self.initialRay = initialRay
         self.objectSet = objectSet
         self.lightSources = lightSources
-        self.ambientLighting = ambientLighting
     }
     
     func trace(ray: Ray, over: Set<AnyHashable>) -> (Double, AnyHashable)? {
@@ -50,59 +48,60 @@ struct RayCast: Hashable {
         return nearestObject
     }
     
-    func run() -> Color {
+    mutating func run() -> Color {
         // Fill in the data for the first node.
-        if let (t, nearestObject) = trace(ray: rayTree.ray, over: objectSet) {
-            rayTree.intersectionPoint = rayTree.ray.pointFrom(t: t)
-            rayTree.sceneObject = nearestObject
+        if let (t, nearestObject) = trace(ray: initialRay, over: objectSet) {
+            let intersectionPoint = initialRay.pointFrom(t: t)
             
             // Cast shadow rays.
             for lightSource in lightSources {
-                if let emissionPoint = rayTree.intersectionPoint {
-                    let shadowRay = Ray(emissionPoint: emissionPoint, directionVector: lightSource.worldPosition - emissionPoint)
-                    // Object struck en route to light sourece.
-                    if let (shadowT, shadowNearestObject) = trace(ray: shadowRay, over: objectSet) {
-                        // Object in path. Shadowed.
-                        return Color(red: 0, green: 0, blue: 0)
+                let shadowRay = Ray(emissionPoint: intersectionPoint, directionVector: lightSource.worldPosition - intersectionPoint)
+                // Object struck en route to light source.
+                if let (shadowT, shadowNearestObject) = trace(ray: shadowRay, over: objectSet) {
+                    if shadowNearestObject == nearestObject {
+                        print("Self-intersection.")
                     }
-                    // No object in path to light source.
-                    else {
-                        // Calculate surface intensity.
-                        if let sphere = rayTree.sceneObject as? Sphere {
-                            let vectorDotNormal = shadowRay.directionVector.normalized().dot(sphere.calculateNormalAt(point: rayTree.intersectionPoint!))
-                            let red = (Double(lightSource.color.red * sphere.material.color.red) / Color.max) * vectorDotNormal
-                            let green = (Double(lightSource.color.green * sphere.material.color.green) / Color.max) * vectorDotNormal
-                            let blue = (Double(lightSource.color.blue * sphere.material.color.blue) / Color.max) * vectorDotNormal
-                            return Color(red: Int(red), green: Int(green), blue: Int(blue))
-                        }
-                        else if let plane = rayTree.sceneObject as? Plane {
-                            let vectorDotNormal = shadowRay.directionVector.normalized().dot(plane.calculateNormalAt(point: rayTree.intersectionPoint!))
-                            let red = (Double(lightSource.color.red * plane.material.color.red) / Color.max) * vectorDotNormal
-                            let green = (Double(lightSource.color.green * plane.material.color.green) / Color.max) * vectorDotNormal
-                            let blue = (Double(lightSource.color.blue * plane.material.color.blue) / Color.max) * vectorDotNormal
-                            return Color(red: Int(red), green: Int(green), blue: Int(blue))
-                        }
-                        else {
-                            return(Color(red: 0, green: 0, blue: 0))
-                        }
+                    // Object in path. Shadowed.
+//                    aggregateColor = aggregateColor + Color(red: 0, green: 0, blue: 0)    // Shadow is default state.
+                }
+                // No object en route to light source.
+                else {
+                    // Calculate surface intensity.
+                    if let sphere = nearestObject as? Sphere {
+                        let vectorDotNormal = shadowRay.directionVector.normalized().dot(sphere.calculateNormalAt(point: intersectionPoint))
+                        let red = (Double(lightSource.color.red * sphere.material.color.red) / Color.max) * vectorDotNormal
+                        let green = (Double(lightSource.color.green * sphere.material.color.green) / Color.max) * vectorDotNormal
+                        let blue = (Double(lightSource.color.blue * sphere.material.color.blue) / Color.max) * vectorDotNormal
+                        aggregateColor = aggregateColor + Color(red: red, green: green, blue: blue)
+                    }
+                    else if let plane = nearestObject as? Plane {
+                        let vectorDotNormal = shadowRay.directionVector.normalized().dot(plane.calculateNormalAt(point: intersectionPoint))
+                        let red = (Double(lightSource.color.red * plane.material.color.red) / Color.max) * vectorDotNormal
+                        let green = (Double(lightSource.color.green * plane.material.color.green) / Color.max) * vectorDotNormal
+                        let blue = (Double(lightSource.color.blue * plane.material.color.blue) / Color.max) * vectorDotNormal
+                        aggregateColor = aggregateColor + Color(red: red, green: green, blue: blue)
                     }
                 }
             }
             
-            // Return the color.
-            if let nearestSphere = nearestObject as? Sphere {
-                return nearestSphere.material.color
-            }
-            else if let nearestPlane = nearestObject as? Plane {
-                return nearestPlane.material.color
-            }
-            else {
-                return Color(red: 0, green: 0, blue: 0)
-            }
+            return aggregateColor.clamped()
+            
+//            // Return the color.
+//            if let nearestSphere = nearestObject as? Sphere {
+////                aggregateColor = aggregateColor + nearestSphere.material.color
+//                return aggregateColor
+//            }
+//            else if let nearestPlane = nearestObject as? Plane {
+////                aggregateColor = aggregateColor + nearestPlane.material.color
+//                return aggregateColor
+//            }
+//            else {
+//                return Color(red: 0, green: 0, blue: 0)
+//            }
         }
-            // Nothing struck by ray.
+        // Nothing struck by ray.
         else {
-            return Color(red: 255, green: 255, blue: 255)
+            return Color(red: 255, green: 255, blue: 255)   // White
         }
     }
 }

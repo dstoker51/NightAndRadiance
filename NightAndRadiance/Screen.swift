@@ -16,7 +16,7 @@ struct Screen: SceneObject {
     var pixelHeight: Double
     var widthInPixels: UInt32
     var heightInPixels: UInt32
-    var raster: Array<Array<Int>>
+    var raster: Array<Array<Double>>
     
     init(screenU: Vector, screenV: Vector, worldPosition: Point, widthInPixels: UInt32, heightInPixels: UInt32) {
         self.screenU = screenU
@@ -36,7 +36,7 @@ struct Screen: SceneObject {
         self.heightInPixels = heightInPixels
         pixelWidth = width / Double(widthInPixels)
         pixelHeight = height / Double(heightInPixels)
-        raster = Array(repeating: Array<Int>(repeating: 0, count: 3), count: Int(widthInPixels * heightInPixels))
+        raster = Array(repeating: Array<Double>(repeating: 0.0, count: 3), count: Int(widthInPixels * heightInPixels))
     }
     
     func worldCoordinateFor(pixelU: UInt32, pixelV: UInt32) -> Point {
