@@ -13,8 +13,7 @@ struct Scene {
     var screen: Screen
     let eye: Eye
     var lightSources = [LightSource]()
-    var objectSet = Set<AnyHashable>()  // Swift doesn't have generalized existentials
-                                        // See https://github.com/apple/swift/blob/master/docs/GenericsManifesto.md#generalized-existentials
+    var objectSet = Set<Strikeable>()
     
     init(screen: Screen, eye: Point) {
         self.screen = screen
@@ -26,7 +25,7 @@ struct Scene {
             for x in 0...screen.widthInPixels - 1 {
                 let pixelLocation: Point = screen.worldCoordinateFor(pixelU: x, pixelV: y)
                 let ray: Ray = Ray(emissionPoint: eye, directionVector: Vector(point1: eye, point2: pixelLocation))
-                var cast = RayCast(initialRay: ray, objectSet: objectSet, lightSources: lightSources)
+                let cast = RayCast(initialRay: ray, objectSet: objectSet, lightSources: lightSources)
                 screen.insertColorAtPixel(x: Int(x), y: Int(y), color: cast.run())
             }
         }

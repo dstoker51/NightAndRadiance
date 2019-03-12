@@ -8,33 +8,29 @@
 
 import Foundation
 
-struct RayCast: Hashable {
-    var aggregateColor: Color = Color(red: 0, green: 0, blue: 0)
-    let objectSet: Set<AnyHashable> // TODO: Use reference instead.
-    let lightSources: [LightSource]   // TODO: Use reference instead.
+class RayCast: Hashable {
+    var aggregateColor: Color = Color(red: 0.0, green: 0.0, blue: 0.0)
+    let objectSet: Set<Strikeable>
+    let lightSources: [LightSource]
     let initialRay: Ray
     let tThreshold = 0.00001    // Threshold to keep from intersecting self over and over due to floating point errors.
     
-    init(initialRay: Ray, objectSet: Set<AnyHashable>, lightSources: [LightSource]) {
+    init(initialRay: Ray, objectSet: Set<Strikeable>, lightSources: [LightSource]) {
         self.initialRay = initialRay
         self.objectSet = objectSet
         self.lightSources = lightSources
     }
     
-    func trace(ray: Ray, over: Set<AnyHashable>) -> (Double, AnyHashable)? {
-        var nearestObject: (Double, AnyHashable)?
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(aggregateColor)
+        hasher.combine(initialRay)
+        hasher.combine(tThreshold)
+    }
+    
+    func trace(ray: Ray, over: Set<Strikeable>) -> (Double, Strikeable)? {
+        var nearestObject: (Double, Strikeable)?
         for sceneObject in objectSet {
-            // TODO: Use protocol instead of if-else branches.
-            let roots: [Double]
-            if let sphere = sceneObject as? Sphere {
-                roots = sphere.calculateRootsWith(ray: ray)
-            }
-            else if let plane = sceneObject as? Plane {
-                roots = plane.calculateRootsWith(ray: ray)
-            }
-            else {
-                roots = []
-            }
+            let roots = sceneObject.calculateRootsWith(ray: ray)
             
             // TODO: Use the intersection location to find the color at that point (assuming the objects have varying colors).
             if roots.count > 0 {
@@ -48,8 +44,7 @@ struct RayCast: Hashable {
         return nearestObject
     }
     
-    mutating func run() -> Color {
-        // Fill in the data for the first node.
+    func run() -> Color {
         if let (t, nearestObject) = trace(ray: initialRay, over: objectSet) {
             let intersectionPoint = initialRay.pointFrom(t: t)
             
@@ -61,47 +56,40 @@ struct RayCast: Hashable {
                     if shadowNearestObject == nearestObject {
                         print("Self-intersection.")
                     }
+                    // TODO: shadowRays are not normalized. This isn't a problem, but the following calculation relies on this fact.
+                    // Decide if all vectors should be normalized or not and alter this calculation to fix it if so.
+                    // Check if object struck was futher out than the light source. (Use strikable notion of light sources instead of thie calculation?)
+                    else if (shadowRay.pointFrom(t: shadowT) - intersectionPoint).magnitude > shadowRay.directionVector.magnitude {
+                        aggregateColor = aggregateColor + calculateSurfaceIntensity(ray: shadowRay, intersectionPoint: intersectionPoint, strikableObject: nearestObject, lightSource: lightSource)
+                    }
                     // Object in path. Shadowed.
 //                    aggregateColor = aggregateColor + Color(red: 0, green: 0, blue: 0)    // Shadow is default state.
                 }
                 // No object en route to light source.
                 else {
                     // Calculate surface intensity.
-                    if let sphere = nearestObject as? Sphere {
-                        let vectorDotNormal = shadowRay.directionVector.normalized().dot(sphere.calculateNormalAt(point: intersectionPoint))
-                        let red = (Double(lightSource.color.red * sphere.material.color.red) / Color.max) * vectorDotNormal
-                        let green = (Double(lightSource.color.green * sphere.material.color.green) / Color.max) * vectorDotNormal
-                        let blue = (Double(lightSource.color.blue * sphere.material.color.blue) / Color.max) * vectorDotNormal
-                        aggregateColor = aggregateColor + Color(red: red, green: green, blue: blue)
-                    }
-                    else if let plane = nearestObject as? Plane {
-                        let vectorDotNormal = shadowRay.directionVector.normalized().dot(plane.calculateNormalAt(point: intersectionPoint))
-                        let red = (Double(lightSource.color.red * plane.material.color.red) / Color.max) * vectorDotNormal
-                        let green = (Double(lightSource.color.green * plane.material.color.green) / Color.max) * vectorDotNormal
-                        let blue = (Double(lightSource.color.blue * plane.material.color.blue) / Color.max) * vectorDotNormal
-                        aggregateColor = aggregateColor + Color(red: red, green: green, blue: blue)
-                    }
+                    aggregateColor = aggregateColor + calculateSurfaceIntensity(ray: shadowRay, intersectionPoint: intersectionPoint, strikableObject: nearestObject, lightSource: lightSource)
                 }
             }
             
             return aggregateColor.clamped()
-            
-//            // Return the color.
-//            if let nearestSphere = nearestObject as? Sphere {
-////                aggregateColor = aggregateColor + nearestSphere.material.color
-//                return aggregateColor
-//            }
-//            else if let nearestPlane = nearestObject as? Plane {
-////                aggregateColor = aggregateColor + nearestPlane.material.color
-//                return aggregateColor
-//            }
-//            else {
-//                return Color(red: 0, green: 0, blue: 0)
-//            }
+
         }
         // Nothing struck by ray.
         else {
-            return Color(red: 255, green: 255, blue: 255)   // White
+            return Color(red: 1.0, green: 1.0, blue: 1.0)   // White
         }
     }
+    
+    private func calculateSurfaceIntensity(ray: Ray, intersectionPoint: Point, strikableObject: Strikeable, lightSource: LightSource) -> Color {
+        let vectorDotNormal = ray.directionVector.normalized().dot(strikableObject.calculateNormalAt(point: intersectionPoint))
+        let red = (Double(lightSource.material.color.red * strikableObject.material.color.red) / Color.max) * vectorDotNormal
+        let green = (Double(lightSource.material.color.green * strikableObject.material.color.green) / Color.max) * vectorDotNormal
+        let blue = (Double(lightSource.material.color.blue * strikableObject.material.color.blue) / Color.max) * vectorDotNormal
+        return Color(red: red, green: green, blue: blue)
+    }
+}
+
+func ==(lhs: RayCast, rhs: RayCast) -> Bool {
+    return lhs === rhs
 }

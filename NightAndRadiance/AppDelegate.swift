@@ -17,12 +17,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let screen = Screen(screenU: Vector(x: 1.0, y: 0.0, z: 0.0), screenV: Vector(x: 0.0, y: 1.0, z: 0.0), worldPosition: Point(0.0, 0.0, 0.0), widthInPixels: width, heightInPixels: height)
         
         var scene = Scene(screen: screen, eye: Point(0.0, 0.0, 1.25))
-//        scene.lightSources.append(LightSource(worldPosition: Point(0.0, 10.0, -3.0), color: Color(red: 255, green: 255, blue: 255)))
-        scene.lightSources.append(LightSource(worldPosition: Point(0.0, 0.0, 0.0), color: Color(red: 255, green: 255, blue: 255)))
+        scene.lightSources.append(LightSource(worldPosition: Point(0.0, 10.0, -3.0), color: Color(red: 255, green: 255, blue: 255)))
+        scene.lightSources.append(LightSource(worldPosition: Point(0.0, 5.0, 1.25), color: Color(red: 255, green: 255, blue: 255)))
         scene.objectSet.insert(Sphere(radius: 1.0, worldPosition: Point(0.0, 0.0, -3.0), material: Material(red: 255, green: 0, blue: 0)))
-//        scene.objectSet.insert(Sphere(radius: 0.5, worldPosition: Point(0.0, 2.0, -3.0), material: Material(red: 255, green: 255, blue: 0)))
-//        scene.objectSet.insert(Sphere(radius: 1.0, worldPosition: Point(3.0, 3.0, -5.0), material: Material(red: 0, green: 255, blue: 0)))
-//        scene.objectSet.insert(Sphere(radius: 1.0, worldPosition: Point(-3.0, 3.0, -5.0), material: Material(red: 0, green: 0, blue: 255)))
+        scene.objectSet.insert(Sphere(radius: 0.5, worldPosition: Point(0.0, 2.0, -3.0), material: Material(red: 255, green: 255, blue: 0)))
+        scene.objectSet.insert(Sphere(radius: 1.0, worldPosition: Point(3.0, 3.0, -5.0), material: Material(red: 0, green: 255, blue: 0)))
+        scene.objectSet.insert(Sphere(radius: 1.0, worldPosition: Point(-3.0, 3.0, -5.0), material: Material(red: 0, green: 0, blue: 255)))
         scene.objectSet.insert(Plane(vectorU: Vector(x: 0.0, y: 0.0, z: 1.0), vectorV: Vector(x: 1.0, y: 0.0, z: 0.0), worldPosition: Point(0.0, -1.5, 0.0), material: Material(red: 0, green: 255, blue: 255)))
         scene.castRays()
         

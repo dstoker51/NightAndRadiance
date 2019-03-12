@@ -10,7 +10,7 @@ import Foundation
 
 struct Color: Hashable {
     static let min = 0.0
-    static let max = 255.0
+    static let max = 1.0
     var red:   Double
     var green: Double
     var blue:  Double
@@ -21,8 +21,10 @@ struct Color: Hashable {
         self.blue = blue
     }
     
+    // 0-255 integers.
     init(red: Int, green: Int, blue: Int) {
-        self.init(red: Double(red), green: Double(green), blue: Double(blue))
+        let scalingFactor = 1.0 / 255.0
+        self.init(red: Double(red) * scalingFactor, green: Double(green) * scalingFactor, blue: Double(blue) * scalingFactor)
     }
     
     init(color: Color) {
@@ -45,6 +47,14 @@ struct Color: Hashable {
         return color * (1.0 / denominator)
     }
     
+    func applyToneMap() -> Color {
+        let toneMappedRed = red / (red + 1.0)
+        let toneMappedGreen = green / (green + 1.0)
+        let toneMappedBlue = blue / (blue + 1.0)
+        
+        return Color(red: toneMappedRed, green: toneMappedGreen, blue: toneMappedBlue)
+    }
+    
     mutating func clamped() -> Color {
         if red < Color.min {
             red = Color.min
@@ -64,6 +74,6 @@ struct Color: Hashable {
         if blue > Color.max {
             blue = Color.max
         }
-        return Color(red: red, green: green, blue: blue)
+        return self
     }
 }

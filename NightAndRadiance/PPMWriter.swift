@@ -37,7 +37,7 @@ struct PPMWriter {
         for y in 0...height - 1 {
             var line = ""
             for x in 0...width - 1 {
-                line.append(String(Int(raster[y * width + x][0])) + " " + String(Int(raster[y * width + x][1])) + " " + String(Int(raster[y * width + x][2])))
+                line.append(String(Int(raster[y * width + x][0] * 255)) + " " + String(Int(raster[y * width + x][1] * 255)) + " " + String(Int(raster[y * width + x][2] * 255)))
                 if x != width - 1 {
                     line.append(" ")
                 }

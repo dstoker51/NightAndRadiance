@@ -9,7 +9,7 @@
 import Foundation
 
 /// A structure made up of an emission point and a direction vector. Used for ray tracing.
-struct Ray: Hashable {
+class Ray: Hashable {
     let emissionPoint: Point
     let directionVector: Vector
     
@@ -20,6 +20,11 @@ struct Ray: Hashable {
     
     func pointFrom(t: Double) -> Point {
         return emissionPoint + directionVector * t
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(emissionPoint)
+        hasher.combine(directionVector)
     }
 }
 
