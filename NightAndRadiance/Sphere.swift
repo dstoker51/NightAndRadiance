@@ -8,19 +8,24 @@
 
 import Foundation
 
-struct Sphere: SceneObject, Strikeable, CustomStringConvertible {
+class Sphere: Strikeable, SceneObject, CustomStringConvertible {
     let radius: Double
-    var material: Material
+//    var material: Material
     var worldPosition: Point
     var description: String { return "radius: \(radius), worldPosition: \(worldPosition)" }
     
     init(radius: Double, worldPosition: Point, material: Material) {
         self.radius = radius
         self.worldPosition = worldPosition
-        self.material = material
+        super.init(material: material)
     }
     
-    func calculateIntersectionPointsWith(ray: Ray) -> Array<Point> {
+    override func hash(into hasher: inout Hasher) {
+        hasher.combine(radius)
+        hasher.combine(material)
+    }
+    
+    override func calculateIntersectionPointsWith(ray: Ray) -> Array<Point> {
         let eMinusO = ray.emissionPoint - worldPosition
         let a = ray.directionVector.dot(ray.directionVector)
         let b = (ray.directionVector * 2.0).dot(eMinusO)
@@ -44,7 +49,7 @@ struct Sphere: SceneObject, Strikeable, CustomStringConvertible {
         }
     }
     
-    func calculateRootsWith(ray: Ray) -> Array<Double> {
+    override func calculateRootsWith(ray: Ray) -> Array<Double> {
         let eMinusO = ray.emissionPoint - worldPosition
         let a = ray.directionVector.dot(ray.directionVector)
         let b = (ray.directionVector * 2.0).dot(eMinusO)
@@ -65,7 +70,11 @@ struct Sphere: SceneObject, Strikeable, CustomStringConvertible {
         }
     }
     
-    func calculateNormalAt(point: Point) -> Vector {
+    override func calculateNormalAt(point: Point) -> Vector {
         return (point - worldPosition).normalized()
     }
+}
+
+func ==(lhs: Sphere, rhs: Sphere) -> Bool {
+    return lhs.radius == rhs.radius && lhs.material == rhs.material
 }

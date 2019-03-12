@@ -8,11 +8,11 @@
 
 import Foundation
 
-struct Plane: SceneObject, Strikeable {
+class Plane: Strikeable, SceneObject {
     let vectorU: Vector
     let vectorV: Vector
     let normal: Vector
-    var material: Material
+//    var material: Material
     var worldPosition: Point
     var description: String { return "vectorU: \(vectorU), vectorV: \(vectorV), worldPosition: \(worldPosition)" }
     
@@ -27,10 +27,16 @@ struct Plane: SceneObject, Strikeable {
         }
         self.normal = self.vectorU.cross(self.vectorV).normalized()
         self.worldPosition = worldPosition
-        self.material = material
+        super.init(material: material)
     }
     
-    func calculateIntersectionPointsWith(ray: Ray) -> Array<Point> {
+    override func hash(into hasher: inout Hasher) {
+        hasher.combine(vectorU)
+        hasher.combine(vectorV)
+        hasher.combine(material)
+    }
+    
+    override func calculateIntersectionPointsWith(ray: Ray) -> Array<Point> {
         let dDotN = ray.directionVector.dot(normal)
         
         // Ray parallel to plane.
@@ -46,7 +52,7 @@ struct Plane: SceneObject, Strikeable {
         return [intersectionPoint]
     }
     
-    func calculateRootsWith(ray: Ray) -> Array<Double> {
+    override func calculateRootsWith(ray: Ray) -> Array<Double> {
         let dDotN = ray.directionVector.dot(normal)
         
         // Ray parallel to plane.
@@ -60,7 +66,11 @@ struct Plane: SceneObject, Strikeable {
         return [root]
     }
     
-    func calculateNormalAt(point: Point) -> Vector {
+    override func calculateNormalAt(point: Point) -> Vector {
         return normal
     }
+}
+
+func ==(rhs: Plane, lhs: Plane) -> Bool {
+    return rhs.vectorU == lhs.vectorU && rhs.vectorV == lhs.vectorV && rhs.material == lhs.material
 }

@@ -8,12 +8,20 @@
 
 import Foundation
 
-struct LightSource: SceneObject {
+class LightSource: Strikeable, SceneObject {
     var worldPosition: Point
-    let color: Color
     
     init(worldPosition: Point, color: Color) {
         self.worldPosition = worldPosition
-        self.color = color
+        super.init(material: Material(red: 1.0, green: 1.0, blue: 1.0))
     }
+    
+    override func hash(into hasher: inout Hasher) {
+        hasher.combine(worldPosition)
+        hasher.combine(super.material.color)
+    }
+}
+
+func == (lhs: LightSource, rhs: LightSource) -> Bool {
+    return lhs.worldPosition == rhs.worldPosition && lhs.material.color == rhs.material.color
 }
