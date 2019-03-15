@@ -26,7 +26,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         scene.objectSet.insert(Plane(vectorU: Vector(x: 0.0, y: 0.0, z: 1.0), vectorV: Vector(x: 1.0, y: 0.0, z: 0.0), worldPosition: Point(0.0, -1.5, 0.0), material: Material(red: 0, green: 255, blue: 255)))
         scene.castRays()
         
-        let ppm = PPMWriter(filename: "output.ppm", filepath: "/Users/Darin/Library/Containers/dstoker51.NightAndRadiance/Data/Documents/", width: Int(width), height: Int(height))
+        let ppm = PPMWriter(filename: "output.ppm", filepath: "/Users/" + NSUserName() + "/Library/Containers/dstoker51.NightAndRadiance/Data/Documents/", width: Int(width), height: Int(height))
         ppm.write(raster: scene.screen.raster)
         print("Done.")
         

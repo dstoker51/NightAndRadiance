@@ -47,12 +47,21 @@ struct Color: Hashable {
         return color * (1.0 / denominator)
     }
     
-    func applyToneMap() -> Color {
-        let toneMappedRed = red / (red + 1.0)
-        let toneMappedGreen = green / (green + 1.0)
-        let toneMappedBlue = blue / (blue + 1.0)
+    func applyBasicToneMap(addition: Double) -> Color {
+        let toneMappedRed = red / (red + addition)
+        let toneMappedGreen = green / (green + addition)
+        let toneMappedBlue = blue / (blue + addition)
         
         return Color(red: toneMappedRed, green: toneMappedGreen, blue: toneMappedBlue)
+    }
+    
+    func applyGammaCorrection(A: Double, gamma: Double) -> Color {
+        
+        let gammaCorrectedRed = A * pow(red, gamma)
+        let gammaCorrectedGreen = A * pow(green, gamma)
+        let gammaCorrectedBlue = A * pow(blue, gamma)
+        
+        return Color(red: gammaCorrectedRed, green: gammaCorrectedGreen, blue: gammaCorrectedBlue)
     }
     
     mutating func clamped() -> Color {

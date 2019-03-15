@@ -18,11 +18,6 @@ extension Vector {
         return Point(point.x + vector.x, point.y + vector.y, point.z + vector.z)
     }
     
-    // ??? What if I want to flip the ordering?
-    //static func +(point: Point, vector: Vector) -> Point {
-    //    return vector + point
-    //}
-    
     static func -(vector: Vector, point: Point) -> Point {
         return Point(point.x - vector.x, point.y - vector.y, point.z - vector.z)
     }
