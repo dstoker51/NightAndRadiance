@@ -73,8 +73,8 @@ class RayCast: Hashable {
             }
             
 //            return aggregateColor.applyGammaCorrection(A: 100.0, gamma: 0.5)
-//            return aggregateColor.applyBasicToneMap(addition: 0.25)
-            return aggregateColor.clamped()
+            return aggregateColor.applyBasicToneMap(addition: 0.25)
+//            return aggregateColor.clamped()
 
         }
         // Nothing struck by ray.
