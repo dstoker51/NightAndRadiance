@@ -10,12 +10,12 @@ import Foundation
 
 class RayCast: Hashable {
     var aggregateColor: Color = Color(red: 0.0, green: 0.0, blue: 0.0)
-    let objectSet: Set<Strikeable>
+    let objectSet: Set<SceneObject>
     let lightSources: [LightSource]
     let initialRay: Ray
     let tThreshold = 0.00001    // Threshold to keep from intersecting self over and over due to floating point errors.
     
-    init(initialRay: Ray, objectSet: Set<Strikeable>, lightSources: [LightSource]) {
+    init(initialRay: Ray, objectSet: Set<SceneObject>, lightSources: [LightSource]) {
         self.initialRay = initialRay
         self.objectSet = objectSet
         self.lightSources = lightSources
@@ -27,8 +27,8 @@ class RayCast: Hashable {
         hasher.combine(tThreshold)
     }
     
-    func trace(ray: Ray, over: Set<Strikeable>) -> (Double, Strikeable)? {
-        var nearestObject: (Double, Strikeable)?
+    func trace(ray: Ray, over: Set<SceneObject>) -> (Double, SceneObject)? {
+        var nearestObject: (Double, SceneObject)?
         for sceneObject in objectSet {
             let roots = sceneObject.calculateRootsWith(ray: ray)
             
@@ -83,7 +83,7 @@ class RayCast: Hashable {
         }
     }
     
-    private func calculateSurfaceIntensity(ray: Ray, intersectionPoint: Point, strikableObject: Strikeable, lightSource: LightSource) -> Color {
+    private func calculateSurfaceIntensity(ray: Ray, intersectionPoint: Point, strikableObject: SceneObject, lightSource: LightSource) -> Color {
         let vectorDotNormal = ray.directionVector.normalized().dot(strikableObject.calculateNormalAt(point: intersectionPoint))
         let red = (Double(lightSource.material.color.red * strikableObject.material.color.red) / Color.max) * vectorDotNormal
         let green = (Double(lightSource.material.color.green * strikableObject.material.color.green) / Color.max) * vectorDotNormal

@@ -13,7 +13,7 @@ struct Scene {
     var screen: Screen
     let eye: Eye
     var lightSources = [LightSource]()
-    var objectSet = Set<Strikeable>()
+    var objectSet = Set<SceneObject>()
     
     init(screen: Screen, eye: Point) {
         self.screen = screen

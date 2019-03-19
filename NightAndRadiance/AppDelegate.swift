@@ -25,10 +25,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         scene.objectSet.insert(Sphere(radius: 1.0, worldPosition: Point(-3.0, 3.0, -5.0), material: Material(red: 0, green: 0, blue: 255)))
         scene.objectSet.insert(Plane(vectorU: Vector(x: 0.0, y: 0.0, z: 1.0), vectorV: Vector(x: 1.0, y: 0.0, z: 0.0), worldPosition: Point(0.0, -1.5, 0.0), material: Material(red: 0, green: 255, blue: 255)))
         scene.castRays()
-        
+
         let ppm = PPMWriter(filename: "output.ppm", filepath: "/Users/" + NSUserName() + "/Library/Containers/dstoker51.NightAndRadiance/Data/Documents/", width: Int(width), height: Int(height))
         ppm.write(raster: scene.screen.raster)
         print("Done.")
+//        print(Triangle(material: Material(red: 3, green: 4, blue: 5), a: Point(0, 0, 0), b: Point(1, 2, 0), c: Point(2, 0, 0)))
         
         // Close the app.
         NSApplication.shared.terminate(self)

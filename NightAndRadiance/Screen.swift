@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Screen: SceneObject {
+struct Screen {
     var width: Double = 0.0, height: Double = 0.0
     var screenU, screenV : Vector
     var worldPosition: Point

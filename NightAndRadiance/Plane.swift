@@ -8,12 +8,10 @@
 
 import Foundation
 
-class Plane: Strikeable, SceneObject {
+class Plane: SceneObject {
     let vectorU: Vector
     let vectorV: Vector
     let normal: Vector
-//    var material: Material
-    var worldPosition: Point
     var description: String { return "vectorU: \(vectorU), vectorV: \(vectorV), worldPosition: \(worldPosition)" }
     
     init(vectorU: Vector, vectorV: Vector, worldPosition: Point, material: Material) {
@@ -26,8 +24,7 @@ class Plane: Strikeable, SceneObject {
             self.vectorV = vectorV
         }
         self.normal = self.vectorU.cross(self.vectorV).normalized()
-        self.worldPosition = worldPosition
-        super.init(material: material)
+        super.init(worldPosition: worldPosition, material: material)
     }
     
     override func hash(into hasher: inout Hasher) {

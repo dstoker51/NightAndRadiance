@@ -8,16 +8,13 @@
 
 import Foundation
 
-class Sphere: Strikeable, SceneObject, CustomStringConvertible {
+class Sphere: SceneObject, CustomStringConvertible {
     let radius: Double
-//    var material: Material
-    var worldPosition: Point
     var description: String { return "radius: \(radius), worldPosition: \(worldPosition)" }
     
     init(radius: Double, worldPosition: Point, material: Material) {
         self.radius = radius
-        self.worldPosition = worldPosition
-        super.init(material: material)
+        super.init(worldPosition: worldPosition, material: material)
     }
     
     override func hash(into hasher: inout Hasher) {
