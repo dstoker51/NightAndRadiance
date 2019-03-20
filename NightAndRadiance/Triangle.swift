@@ -46,7 +46,27 @@ class Triangle: SceneObject, CustomStringConvertible {
         preconditionFailure("This method must be overridden.")
     }
     override func calculateRootsWith(ray: Ray) -> Array<Double> {
-        preconditionFailure("This method must be overridden.")
+        // Moller Trumbore algorithm
+        // https://www.scratchapixel.com/lessons/3d-basic-rendering/ray-tracing-rendering-a-triangle/moller-trumbore-ray-triangle-intersection
+        let v0v1 = b - a
+        let v0v2 = c - a
+        let pVec = ray.directionVector.cross(v0v2)
+        let det = v0v1.dot(pVec)
+        
+        // Culling of backwards-facing triangles
+        let shouldCull = true
+        if (shouldCull) {
+            if (det.isZero) {
+                return []
+            }
+        }
+        
+        // Ray and triangle are parallel if determinant is close to zero.
+        if (abs(det).isZero) {
+            return []
+        }
+        
+        
     }
     override func calculateNormalAt(point: Point) -> Vector {
         return normal
