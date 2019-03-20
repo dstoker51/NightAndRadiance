@@ -43,15 +43,21 @@ class Triangle: SceneObject, CustomStringConvertible {
     }
     
     override func calculateIntersectionPointsWith(ray: Ray) -> Array<Point> {
-        preconditionFailure("This method must be overridden.")
+        let roots = calculateRootsWith(ray: ray)
+        
+        if roots.count > 0 {
+            
+        }
+        
+        return []
     }
     override func calculateRootsWith(ray: Ray) -> Array<Double> {
         // Moller Trumbore algorithm
         // https://www.scratchapixel.com/lessons/3d-basic-rendering/ray-tracing-rendering-a-triangle/moller-trumbore-ray-triangle-intersection
-        let v0v1 = b - a
-        let v0v2 = c - a
-        let pVec = ray.directionVector.cross(v0v2)
-        let det = v0v1.dot(pVec)
+        let ab = b - a
+        let ac = c - a
+        let pVec = ray.directionVector.cross(ac)
+        let det = ab.dot(pVec)
         
         // Culling of backwards-facing triangles
         let shouldCull = true
@@ -65,6 +71,21 @@ class Triangle: SceneObject, CustomStringConvertible {
         if (abs(det).isZero) {
             return []
         }
+        
+        let invDet = 1.0 / det
+        let tVec = ray.emissionPoint - a
+        let u = tVec.dot(pVec) * invDet
+        if (u < 0.0 || u > 1.0) {
+            return []
+        }
+        
+        let qVec = tVec.cross(ab)
+        let v = ray.directionVector.dot(qVec) * invDet
+        if(v < 0.0 || u + v > 1.0) {
+            return []
+        }
+        
+        return [ac.dot(qVec) * invDet]
         
         
     }
