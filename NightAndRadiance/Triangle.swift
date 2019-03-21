@@ -22,7 +22,7 @@ class Triangle: SceneObject, CustomStringConvertible {
         
         // Calculate normal.
         let vectorOne = Vector(point1: a, point2: b)
-        let vectorTwo = Vector(point1: b, point2: c)
+        let vectorTwo = Vector(point1: a, point2: c)
         self.normal = vectorOne.cross(vectorTwo).normalized()
         
         // Calculate centroid of triangle from input points.
@@ -45,11 +45,13 @@ class Triangle: SceneObject, CustomStringConvertible {
     override func calculateIntersectionPointsWith(ray: Ray) -> Array<Point> {
         let roots = calculateRootsWith(ray: ray)
         
+        // Triangles can only have one intersection point.
         if roots.count > 0 {
-            
+            return [ray.emissionPoint + ray.directionVector * roots[0]]
         }
-        
-        return []
+        else {
+            return []
+        }
     }
     override func calculateRootsWith(ray: Ray) -> Array<Double> {
         // Moller Trumbore algorithm
@@ -60,7 +62,7 @@ class Triangle: SceneObject, CustomStringConvertible {
         let det = ab.dot(pVec)
         
         // Culling of backwards-facing triangles
-        let shouldCull = true
+        let shouldCull = false
         if (shouldCull) {
             if (det.isZero) {
                 return []
@@ -86,7 +88,6 @@ class Triangle: SceneObject, CustomStringConvertible {
         }
         
         return [ac.dot(qVec) * invDet]
-        
         
     }
     override func calculateNormalAt(point: Point) -> Vector {
