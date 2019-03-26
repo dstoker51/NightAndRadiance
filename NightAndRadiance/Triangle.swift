@@ -9,10 +9,12 @@
 import Foundation
 
 class Triangle: SceneObject, CustomStringConvertible {
-    var a: Point
-    var b: Point
-    var c: Point
-    var normal: Vector
+    let a: Point
+    let b: Point
+    let c: Point
+    let vectorAB: Vector
+    let vectorAC: Vector
+    let normal: Vector
     var description: String {return "Triangle(\(a), \(b), \(c)), worldPosition: \(worldPosition)"}
     
     init(material: Material, a: Point, b: Point, c: Point) {
@@ -21,9 +23,9 @@ class Triangle: SceneObject, CustomStringConvertible {
         self.c = c
         
         // Calculate normal.
-        let vectorOne = Vector(point1: a, point2: b)
-        let vectorTwo = Vector(point1: a, point2: c)
-        self.normal = vectorOne.cross(vectorTwo).normalized()
+        vectorAB = Vector(point1: a, point2: b)
+        vectorAC = Vector(point1: a, point2: c)
+        self.normal = vectorAB.cross(vectorAC).normalized()
         
         // Calculate centroid of triangle from input points.
         let centroidX = (a.x + b.x + c.x) / 3.0
@@ -56,13 +58,11 @@ class Triangle: SceneObject, CustomStringConvertible {
     override func calculateRootsWith(ray: Ray) -> Array<Double> {
         // Moller Trumbore algorithm
         // https://www.scratchapixel.com/lessons/3d-basic-rendering/ray-tracing-rendering-a-triangle/moller-trumbore-ray-triangle-intersection
-        let ab = b - a
-        let ac = c - a
-        let pVec = ray.directionVector.cross(ac)
-        let det = ab.dot(pVec)
+        let pVec = ray.directionVector.cross(vectorAC)
+        let det = vectorAB.dot(pVec)
         
         // Culling of backwards-facing triangles
-        let shouldCull = false
+        let shouldCull = true
         if (shouldCull) {
             if (det.isZero) {
                 return []
@@ -81,13 +81,13 @@ class Triangle: SceneObject, CustomStringConvertible {
             return []
         }
         
-        let qVec = tVec.cross(ab)
+        let qVec = tVec.cross(vectorAB)
         let v = ray.directionVector.dot(qVec) * invDet
         if(v < 0.0 || u + v > 1.0) {
             return []
         }
         
-        return [ac.dot(qVec) * invDet]
+        return [vectorAC.dot(qVec) * invDet]
         
     }
     override func calculateNormalAt(point: Point) -> Vector {

@@ -14,6 +14,7 @@ class RayCast: Hashable {
     let lightSources: [LightSource]
     let initialRay: Ray
     let tThreshold = 0.00001    // Threshold to keep from intersecting self over and over due to floating point errors.
+    let maxDepth = 3
     
     init(initialRay: Ray, objectSet: Set<SceneObject>, lightSources: [LightSource]) {
         self.initialRay = initialRay
@@ -27,59 +28,70 @@ class RayCast: Hashable {
         hasher.combine(tThreshold)
     }
     
-    func trace(ray: Ray, over: Set<SceneObject>) -> (Double, SceneObject)? {
-        var nearestObject: (Double, SceneObject)?
-        for sceneObject in objectSet {
-            let roots = sceneObject.calculateRootsWith(ray: ray)
-            
-            // TODO: Use the intersection location to find the color at that point (assuming the objects have varying colors).
-            if roots.count > 0 {
-                for root in roots {
-                    if root > 0 && root > tThreshold && (nearestObject == nil || root < nearestObject!.0) {
-                        nearestObject = (root, sceneObject)
-                    }
-                }
-            }
-        }
-        return nearestObject
-    }
-    
-    func run() -> Color {
-        if let (t, nearestObject) = trace(ray: initialRay, over: objectSet) {
+    func trace(ray: Ray) -> Color {
+        if let (t, nearestObject) = checkForIntersection(ray: ray) {
             let intersectionPoint = initialRay.pointFrom(t: t)
             
             // Cast shadow rays.
-            for lightSource in lightSources {
-                let shadowRay = Ray(emissionPoint: intersectionPoint, directionVector: lightSource.worldPosition - intersectionPoint)
-                // Object struck en route to light source.
-                if let (shadowT, shadowNearestObject) = trace(ray: shadowRay, over: objectSet) {
-                    if shadowNearestObject == nearestObject {
-                        print("Self-intersection.")
-                    }
-                    // TODO: shadowRays are not normalized. This isn't a problem, but the following calculation relies on this fact.
-                    // Decide if all vectors should be normalized or not and alter this calculation to fix it if so.
-                    // Check if object struck was futher out than the light source. (Use strikable notion of light sources instead of thie calculation?)
-                    else if (shadowRay.pointFrom(t: shadowT) - intersectionPoint).magnitude > shadowRay.directionVector.magnitude {
-                        aggregateColor = aggregateColor + calculateSurfaceIntensity(ray: shadowRay, intersectionPoint: intersectionPoint, strikableObject: nearestObject, lightSource: lightSource)
-                    }
-                    // Object in path. Shadowed.
-//                    aggregateColor = aggregateColor + Color(red: 0, green: 0, blue: 0)    // Shadow is default state.
-                }
-                // No object en route to light source.
-                else {
-                    // Calculate surface intensity.
-                    aggregateColor = aggregateColor + calculateSurfaceIntensity(ray: shadowRay, intersectionPoint: intersectionPoint, strikableObject: nearestObject, lightSource: lightSource)
-                }
-            }
+            let shadowRayContribution: Color = castShadowRay(intersectionPoint: intersectionPoint)
             
-//            return aggregateColor.applyGammaCorrection(A: 100.0, gamma: 0.5)
-//            return aggregateColor.applyBasicToneMap(addition: 0.25)
+            // Cast reflective rays (if any).
+            
+            // Cast refractie rays (if any).
+            
+            // TODO: Cast ambient light rays.
+            
+            // Tone map the output color.
+            
+            //            return aggregateColor.applyGammaCorrection(A: 100.0, gamma: 0.5)
+            //            return aggregateColor.applyBasicToneMap(addition: 0.25)
             return aggregateColor.clamped()
-
+            
         }
-        // Nothing struck by ray.
+            // Nothing struck by ray.
         else {
             return Color(red: 1.0, green: 1.0, blue: 1.0)   // White
+        }
+    }
+    
+    private func checkForIntersection(ray: Ray) -> (Double, SceneObject)? {
+        var nearestIntersectedObject: (Double, SceneObject)?
+        
+        // Iterate over all objects in scene and find the one with the nearest intersection (if any).
+        for sceneObject in objectSet {
+            let roots = sceneObject.calculateRootsWith(ray: ray)
+            if roots.count > 0 {
+                for root in roots {
+                    if root > 0 && root > tThreshold && (nearestIntersectedObject == nil || root < nearestIntersectedObject!.0) {
+                        nearestIntersectedObject = (root, sceneObject)
+                    }
+                }
+            }
+        }
+        
+        return nearestIntersectedObject
+    }
+    
+    private func castShadowRay(emissionPoint: Point) -> Color {
+        var aggregateLightColor: Color = Color(red: 0.0, green: 0.0, blue: 0.0)
+        for lightSource in lightSources {
+            let shadowRay = Ray(emissionPoint: emissionPoint, directionVector: lightSource.worldPosition - emissionPoint)
+            // Object struck en-route to light source.
+            if let (shadowT, shadowNearestObject) = checkForIntersection(ray: shadowRay) {
+                    // TODO: shadowRays are not normalized. This isn't a problem, but the following calculation relies on this fact.
+                    // Decide if all vectors should be normalized or not and alter this calculation to fix it if so.
+                    // Check if object struck was futher out than the light source. (Use strikable notion of light sources instead of this calculation?)
+                if (shadowRay.pointFrom(t: shadowT) - emissionPoint).magnitude > shadowRay.directionVector.magnitude {
+                    aggregateLightColor = aggregateLightColor + calculateSurfaceIntensity(ray: shadowRay, intersectionPoint: emissionPoint, strikableObject: nearestObject, lightSource: lightSource)
+                }
+                // Object in path. Shadowed.
+                //                    aggregateColor = aggregateColor + Color(red: 0, green: 0, blue: 0)    // Shadow is default state.
+            }
+            // No object en-route to light source.
+            else {
+                // Calculate surface intensity.
+                aggregateLightColor = aggregateLightColor + calculateSurfaceIntensity(ray: shadowRay, intersectionPoint: emissionPoint, strikableObject: nearestObject, lightSource: lightSource)
+            }
         }
     }
     
