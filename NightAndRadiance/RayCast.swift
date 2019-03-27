@@ -33,19 +33,18 @@ class RayCast: Hashable {
             let intersectionPoint = initialRay.pointFrom(t: t)
             
             // Cast shadow rays.
-            let shadowRayContribution: Color = castShadowRay(intersectionPoint: intersectionPoint)
+            aggregateColor = aggregateColor + castShadowRay(emissionPoint: intersectionPoint, sourceObject: nearestObject)
             
             // Cast reflective rays (if any).
             
-            // Cast refractie rays (if any).
+            // Cast refractive rays (if any).
             
             // TODO: Cast ambient light rays.
             
             // Tone map the output color.
-            
-            //            return aggregateColor.applyGammaCorrection(A: 100.0, gamma: 0.5)
-            //            return aggregateColor.applyBasicToneMap(addition: 0.25)
             return aggregateColor.clamped()
+//            return aggregateColor.applyGammaCorrection(A: 100.0, gamma: 0.5)
+//            return aggregateColor.applyBasicToneMap(addition: 0.25)
             
         }
             // Nothing struck by ray.
@@ -72,7 +71,7 @@ class RayCast: Hashable {
         return nearestIntersectedObject
     }
     
-    private func castShadowRay(emissionPoint: Point) -> Color {
+    private func castShadowRay(emissionPoint: Point, sourceObject: SceneObject) -> Color {
         var aggregateLightColor: Color = Color(red: 0.0, green: 0.0, blue: 0.0)
         for lightSource in lightSources {
             let shadowRay = Ray(emissionPoint: emissionPoint, directionVector: lightSource.worldPosition - emissionPoint)
@@ -81,18 +80,16 @@ class RayCast: Hashable {
                     // TODO: shadowRays are not normalized. This isn't a problem, but the following calculation relies on this fact.
                     // Decide if all vectors should be normalized or not and alter this calculation to fix it if so.
                     // Check if object struck was futher out than the light source. (Use strikable notion of light sources instead of this calculation?)
-                if (shadowRay.pointFrom(t: shadowT) - emissionPoint).magnitude > shadowRay.directionVector.magnitude {
-                    aggregateLightColor = aggregateLightColor + calculateSurfaceIntensity(ray: shadowRay, intersectionPoint: emissionPoint, strikableObject: nearestObject, lightSource: lightSource)
+                if (shadowRay.pointFrom(t: shadowT) - emissionPoint).magnitude <= shadowRay.directionVector.magnitude {
+                    // Object in path. Shadowed is default state. Move on to the next light source.
+                    continue;
                 }
-                // Object in path. Shadowed.
-                //                    aggregateColor = aggregateColor + Color(red: 0, green: 0, blue: 0)    // Shadow is default state.
             }
-            // No object en-route to light source.
-            else {
-                // Calculate surface intensity.
-                aggregateLightColor = aggregateLightColor + calculateSurfaceIntensity(ray: shadowRay, intersectionPoint: emissionPoint, strikableObject: nearestObject, lightSource: lightSource)
-            }
+            // No object en-route to light source. Calculate surface intensity.
+            aggregateLightColor = aggregateLightColor + calculateSurfaceIntensity(ray: shadowRay, intersectionPoint: emissionPoint, strikableObject: sourceObject, lightSource: lightSource)
         }
+        
+        return aggregateLightColor
     }
     
     private func calculateSurfaceIntensity(ray: Ray, intersectionPoint: Point, strikableObject: SceneObject, lightSource: LightSource) -> Color {

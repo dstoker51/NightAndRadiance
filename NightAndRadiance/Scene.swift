@@ -26,7 +26,7 @@ struct Scene {
                 let pixelLocation: Point = screen.worldCoordinateFor(pixelU: x, pixelV: y)
                 let ray: Ray = Ray(emissionPoint: eye, directionVector: Vector(point1: eye, point2: pixelLocation))
                 let cast = RayCast(initialRay: ray, objectSet: objectSet, lightSources: lightSources)
-                screen.insertColorAtPixel(x: Int(x), y: Int(y), color: cast.run())
+                screen.insertColorAtPixel(x: Int(x), y: Int(y), color: cast.trace(ray: cast.initialRay))
             }
         }
     }
