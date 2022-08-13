@@ -346,6 +346,23 @@ class VectorTests: XCTestCase {
         XCTAssertEqual(vector.z, 3.0 * Double.pi, accuracy: Double.ulpOfOne)
     }
     
+    func testVectorMultiplyByVector() {
+        let v1 = Vector4D(x: 1.0, y: 2.0, z: 3.0)
+        let v2 = Vector4D(x: 2.0, y: 2.0, z: 2.0)
+        let resultantVector = v1 * v2
+        XCTAssertEqual(resultantVector.x, 2.0, accuracy: Double.ulpOfOne)
+        XCTAssertEqual(resultantVector.y, 4.0, accuracy: Double.ulpOfOne)
+        XCTAssertEqual(resultantVector.z, 6.0, accuracy: Double.ulpOfOne)
+    }
+    
+    func testVectorTimesEqualsVector() {
+        var vector = Vector4D(x: 1.0, y: 2.0, z: 3.0)
+        vector *= Vector4D(x: 2.0, y: 2.0, z: 2.0)
+        XCTAssertEqual(vector.x, 2.0, accuracy: Double.ulpOfOne)
+        XCTAssertEqual(vector.y, 4.0, accuracy: Double.ulpOfOne)
+        XCTAssertEqual(vector.z, 6.0, accuracy: Double.ulpOfOne)
+    }
+    
     //---------------------------------------------------------------------------------------------
     // MARK: - Vector Division Tests
     //---------------------------------------------------------------------------------------------
@@ -364,6 +381,23 @@ class VectorTests: XCTestCase {
         XCTAssertEqual(vector.x, 1.0 / Double.pi, accuracy: Double.ulpOfOne)
         XCTAssertEqual(vector.y, 2.0 / Double.pi, accuracy: Double.ulpOfOne)
         XCTAssertEqual(vector.z, 3.0 / Double.pi, accuracy: Double.ulpOfOne)
+    }
+    
+    func testVectorDivideByVector() {
+        let v1 = Vector4D(x: 1.0, y: 2.0, z: 3.0)
+        let v2 = Vector4D(x: 2.0, y: 2.0, z: 2.0)
+        let resultantVector = v1 / v2
+        XCTAssertEqual(resultantVector.x, 1.0/2.0, accuracy: Double.ulpOfOne)
+        XCTAssertEqual(resultantVector.y, 2.0/2.0, accuracy: Double.ulpOfOne)
+        XCTAssertEqual(resultantVector.z, 3.0/2.0, accuracy: Double.ulpOfOne)
+    }
+    
+    func testVectorDivideEqualsVector() {
+        var vector = Vector4D(x: 1.0, y: 2.0, z: 3.0)
+        vector /= Vector4D(x: 2.0, y: 2.0, z: 2.0)
+        XCTAssertEqual(vector.x, 1.0/2.0, accuracy: Double.ulpOfOne)
+        XCTAssertEqual(vector.y, 2.0/2.0, accuracy: Double.ulpOfOne)
+        XCTAssertEqual(vector.z, 3.0/2.0, accuracy: Double.ulpOfOne)
     }
     
     //---------------------------------------------------------------------------------------------

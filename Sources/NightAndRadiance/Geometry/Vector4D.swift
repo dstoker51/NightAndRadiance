@@ -8,6 +8,8 @@
 
 import Foundation
 
+// TODO: W in all functions
+
 /// A 4D vector that implements the standard mathematical operations including dot, cross, normalize, invert, etc.
 struct Vector4D: Hashable, CustomStringConvertible {
     var x, y, z, w: Double
@@ -171,6 +173,20 @@ struct Vector4D: Hashable, CustomStringConvertible {
         vector = vector * scalar
     }
     
+    /// Multiplies a vector by another vector, resulting in a vector with each component scaled by the other vectors corresponding component.
+    ///
+    /// - Parameters:
+    ///   - v1: Vector to scale.
+    ///   - v2: Vector by which to multiply
+    /// - Returns: Scaled vector.
+    static func *(v1: Vector4D, v2: Vector4D) -> Vector4D {
+        return Vector4D(x: v1.x * v2.x, y: v1.y * v2.y, z: v1.z * v2.z)
+    }
+    
+    static func *=(v1: inout Vector4D, v2: Vector4D) {
+        v1 = v1 * v2
+    }
+    
     /// Divides a vector by a scalar, resulting in a vector with a scaled magnitude and direction.
     ///
     /// - Parameters:
@@ -183,5 +199,19 @@ struct Vector4D: Hashable, CustomStringConvertible {
     
     static func /=(vector: inout Vector4D, scalar: Double) {
         vector = vector / scalar
+    }
+    
+    /// Divides a vector by another vector, resulting in a vector with each component scaled by the other vectors corresponding component.
+    ///
+    /// - Parameters:
+    ///   - v1: Vector to scale.
+    ///   - v2: Vector with which to divide
+    /// - Returns: Scaled vector.
+    static func /(v1: Vector4D, v2: Vector4D) -> Vector4D {
+        return Vector4D(x: v1.x / v2.x, y: v1.y / v2.y, z: v1.z / v2.z)
+    }
+    
+    static func /=(v1: inout Vector4D, v2: Vector4D) {
+        v1 = v1 / v2
     }
 }
