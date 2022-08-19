@@ -1,0 +1,22 @@
+{
+    "configurations": [
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug night_and_radiance",
+            "program": "${workspaceFolder:NightAndRadiance}/.build/debug/night_and_radiance",
+            "args": [],
+            "cwd": "${workspaceFolder:NightAndRadiance}",
+            "preLaunchTask": "swift: Build Debug night_and_radiance"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Release night_and_radiance",
+            "program": "${workspaceFolder:NightAndRadiance}/.build/release/night_and_radiance",
+            "args": [],
+            "cwd": "${workspaceFolder:NightAndRadiance}",
+            "preLaunchTask": "swift: Build Release night_and_radiance"
+        }
+    ]
+}

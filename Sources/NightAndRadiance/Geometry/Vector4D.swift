@@ -127,8 +127,7 @@ struct Vector4D: Hashable, CustomStringConvertible {
     ///
     /// - Returns: The normalized vector.
     func normalized() -> Vector4D {
-        let scale = 1/magnitude
-        return Vector4D(x: x * scale, y: y * scale, z: z * scale)
+        return self / self.magnitude
     }
     
     /// Adds two vectors together.

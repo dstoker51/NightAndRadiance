@@ -240,6 +240,22 @@ class VectorTests: XCTestCase {
         XCTAssertEqual(resultantVector.y, 1.3)
         XCTAssertEqual(resultantVector.z, 1.5)
     }
+
+    func testVectorAddNegativeSelf() {
+        let vector1 = Vector4D(x: 1.2, y: 2.3, z: 3.4)
+        let vector2 = vector1 * -1.0
+        let resultantVector = vector1 + vector2
+        XCTAssertEqual(resultantVector.x, 0.0, accuracy: 0.0000001)
+        XCTAssertEqual(resultantVector.y, 0.0, accuracy: 0.0000001)
+        XCTAssertEqual(resultantVector.z, 0.0, accuracy: 0.0000001)
+    }
+
+    func testVectorAdditionCommutativity() {
+        let vector1 = Vector4D(x: 2.0, y: 3.0, z: 4.0)
+        let vector2 = Vector4D(x: 4.0, y: 6.0, z: 8.0)
+        XCTAssert(vector1 + vector2 == vector2 + vector1)
+
+    }
     
     func testVectorPlusEqualsXYSimple() {
         var vector1 = Vector4D(x: 1.0, y: 1.0, z: 0.0)
@@ -297,6 +313,22 @@ class VectorTests: XCTestCase {
         XCTAssertEqual(resultantVector.x, 0.3, accuracy: Double.ulpOfOne)
         XCTAssertEqual(resultantVector.y, 0.7, accuracy: Double.ulpOfOne)
         XCTAssertEqual(resultantVector.z, 0.5, accuracy: Double.ulpOfOne)
+    }
+
+    func testVectorSubtractSelf() {
+        let vector1 = Vector4D(x: 1.2, y: 2.3, z: 3.4)
+        let vector2 = vector1
+        let resultantVector = vector1 - vector2
+        XCTAssertEqual(resultantVector.x, 0.0, accuracy: 0.0000001)
+        XCTAssertEqual(resultantVector.y, 0.0, accuracy: 0.0000001)
+        XCTAssertEqual(resultantVector.z, 0.0, accuracy: 0.0000001)
+    }
+
+    func testVectorSubtractionAdditionEquality() {
+        let vector1 = Vector4D(x: 2.0, y: 3.0, z: 4.0)
+        let vector2 = Vector4D(x: 4.0, y: 6.0, z: 8.0)
+        XCTAssert(vector2 - vector1 == vector2 + (vector1 * -1.0))
+
     }
     
     func testVectorMinusEqualsXYSimple() {
