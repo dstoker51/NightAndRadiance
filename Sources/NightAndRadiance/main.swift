@@ -32,7 +32,7 @@ func hitSphere(center: Point3D, radius: Double, ray: Ray) -> Double {
     if discriminant < 0 {
         return -1.0
     } else {
-        return (-b - sqrt(discriminant) / (2.0 * a))
+        return (-b - sqrt(discriminant)) / (2.0 * a)
     }
 }
 

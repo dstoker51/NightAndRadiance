@@ -28,17 +28,17 @@ struct PPMWriter {
         
         let fileURL = URL(fileURLWithPath: filepath + "/" + filename)
         
-        var text = "P3 \(width) \(height) 255\n"
+        var text = "P3\n\(width) \(height)\n255\n"
         for y in 0...height - 1 {
             var line = ""
             for x in 0...width - 1 {
-                let red = Int(raster[y * width + x].red * 255.0)
-                let green = Int(raster[y * width + x].green * 255.0)
-                let blue = Int(raster[y * width + x].blue * 255.0)
+                let red = Int(raster[y * width + x].red * 255.999)
+                let green = Int(raster[y * width + x].green * 255.999)
+                let blue = Int(raster[y * width + x].blue * 255.999)
                 
                 line.append(String(red) + " " + String(green) + " " + String(blue))
                 if x != width - 1 {
-                    line.append(" ")
+                    line.append("\n")
                 }
             }
             text.append(line + "\n")
