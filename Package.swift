@@ -18,8 +18,8 @@ let package = Package(
         .executableTarget(
             name: "NightAndRadiance",
             dependencies: []),
-        .testTarget(
-            name: "NightAndRadianceTests",
-            dependencies: ["NightAndRadiance"]),
+//        .testTarget(
+//            name: "NightAndRadianceTests",
+//            dependencies: ["NightAndRadiance"]),
     ]
 )

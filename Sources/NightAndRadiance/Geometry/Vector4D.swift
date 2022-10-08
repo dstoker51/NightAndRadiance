@@ -214,3 +214,30 @@ struct Vector4D: Hashable, CustomStringConvertible {
         v1 = v1 / v2
     }
 }
+
+extension Vector4D {
+    @inlinable
+    static func random() -> Vector4D {
+        //TODO: Inclusive?
+        Vector4D(x: Double.random(in: 0.0..<1.0), y: Double.random(in: 0.0..<1.0), z: Double.random(in: 0.0..<1.0))
+    }
+
+    @inlinable
+    static func random(minValue: Double, maxValue: Double) -> Vector4D {
+        let max = max(minValue, maxValue)
+        let min = min(minValue, maxValue)
+        //TODO: Inclusive?
+        return Vector4D(x: Double.random(in: min..<max), y: Double.random(in: min..<max), z: Double.random(in: min..<max))
+    }
+
+    @inlinable
+    static func randomInUnitSphere() -> Vector4D {
+        while true {
+            let p = random(minValue: -1.0, maxValue: 1.0)
+            if (p.magnitude * p.magnitude) >= 1.0 {
+                continue
+            }
+            return p
+        }
+    }
+}

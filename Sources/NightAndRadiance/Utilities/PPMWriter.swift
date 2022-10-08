@@ -32,9 +32,10 @@ struct PPMWriter {
         for y in 0...height - 1 {
             var line = ""
             for x in 0...width - 1 {
-                let red = Int(raster[y * width + x].red * 255.999)
-                let green = Int(raster[y * width + x].green * 255.999)
-                let blue = Int(raster[y * width + x].blue * 255.999)
+                // Square root for gamma correction
+                let red = Int(sqrt(raster[y * width + x].red) * 255.999)
+                let green = Int(sqrt(raster[y * width + x].green) * 255.999)
+                let blue = Int(sqrt(raster[y * width + x].blue) * 255.999)
                 
                 line.append(String(red) + " " + String(green) + " " + String(blue))
                 if x != width - 1 {
