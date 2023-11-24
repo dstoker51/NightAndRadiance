@@ -1,8 +1,8 @@
 //
 //  VectorTests.swift
-//  
 //
-//  Created by Darin Stoker on 8/12/22.
+//
+//  Created by Darin Stoker on 11/23/23.
 //
 
 import XCTest
@@ -15,50 +15,50 @@ class VectorTests: XCTestCase {
     //---------------------------------------------------------------------------------------------
 
     func testCreateXYZ() {
-        let vector = Vector4D(x: 1.25, y: 2.25, z: 3.25)
+        let vector = Vector(x: 1.25, y: 2.25, z: 3.25)
         XCTAssert(vector.x == 1.25, "X doesn't equal 1.25")
         XCTAssert(vector.y == 2.25, "Y doesn't equal 2.25")
         XCTAssert(vector.z == 3.25, "Z doesn't equal 3.25")
     }
 
     func testCreateXYZWithZeros() {
-        let vector = Vector4D(x: 0.0, y: 0.0, z: 0.0)
+        let vector = Vector(x: 0.0, y: 0.0, z: 0.0)
         XCTAssert(vector.x == 0.0, "X doesn't equal 0.0")
         XCTAssert(vector.y == 0.0, "Y doesn't equal 0.0")
         XCTAssert(vector.z == 0.0, "Z doesn't equal 0.0")
     }
 
     func testCreateRThetas() {
-        let vector = Vector4D(r: 2, theta1: Double.pi/4.0, theta2: Double.pi/4.0)
+        let vector = Vector(r: 2, theta1: Double.pi/4.0, theta2: Double.pi/4.0)
         XCTAssertEqual(vector.x, sqrt(2), accuracy: 0.000000001, "X should equal \(sqrt(2)), actually is \(vector.x)")
         XCTAssertEqual(vector.y, sqrt(2), accuracy: 0.000000001, "Y should equal \(sqrt(2)), actually is \(vector.y)")
         XCTAssertEqual(vector.z, sqrt(2), accuracy: 0.000000001, "Z should equal \(sqrt(2)), actually is \(vector.z)")
     }
 
     func testCreateRThetasWithZeroRadius() {
-        let vector = Vector4D(r: 0.0, theta1: Double.pi/4.0, theta2: Double.pi/4.0)
+        let vector = Vector(r: 0.0, theta1: Double.pi/4.0, theta2: Double.pi/4.0)
         XCTAssertEqual(vector.x, 0.0, accuracy: 0.000000001, "X should equal 0.0, actually is \(vector.x)")
         XCTAssertEqual(vector.y, 0.0, accuracy: 0.000000001, "Y should equal 0.0, actually is \(vector.y)")
         XCTAssertEqual(vector.z, 0.0, accuracy: 0.000000001, "Z should equal 0.0, actually is \(vector.z)")
     }
 
     func testCreateRThetasWithZeroThetas() {
-        let vector = Vector4D(r: 2.0, theta1: 0.0, theta2: 0.0)
+        let vector = Vector(r: 2.0, theta1: 0.0, theta2: 0.0)
         XCTAssertEqual(vector.x, 2.0, accuracy: 0.000000001, "X should equal 2.0, actually is \(vector.x)")
         XCTAssertEqual(vector.y, 0.0, accuracy: 0.000000001, "Y should equal 0.0, actually is \(vector.y)")
         XCTAssertEqual(vector.z, 0.0, accuracy: 0.000000001, "Z should equal 0.0, actually is \(vector.z)")
     }
 
     func testCreateRThetasWithAllZeros() {
-        let vector = Vector4D(r: 0.0, theta1: 0.0, theta2: 0.0)
+        let vector = Vector(r: 0.0, theta1: 0.0, theta2: 0.0)
         XCTAssertEqual(vector.x, 0.0, accuracy: 0.000000001, "X should equal 0.0, actually is \(vector.x)")
         XCTAssertEqual(vector.y, 0.0, accuracy: 0.000000001, "Y should equal 0.0, actually is \(vector.y)")
         XCTAssertEqual(vector.z, 0.0, accuracy: 0.000000001, "Z should equal 0.0, actually is \(vector.z)")
     }
 
     func testCreateWithVector() {
-        let originalVector = Vector4D(x: 7.5, y: 8.5, z: 9.5)
-        let vectorCopy = Vector4D(originalVector)
+        let originalVector = Vector(x: 7.5, y: 8.5, z: 9.5)
+        let vectorCopy = Vector(originalVector)
         XCTAssertEqual(vectorCopy.x, 7.5)
         XCTAssertEqual(vectorCopy.y, 8.5)
         XCTAssertEqual(vectorCopy.z, 9.5)
@@ -66,11 +66,11 @@ class VectorTests: XCTestCase {
     
     func testTimeToCreateOneMillionVectors() {
         self.measure {
-            var vectors = [Vector4D]()
+            var vectors = [Vector]()
             for x in 0...99 {
                 for y in 0...99 {
                     for z in 0...99 {
-                        vectors.append(Vector4D(x: Double(x), y: Double(y), z: Double(z)))
+                        vectors.append(Vector(x: Double(x), y: Double(y), z: Double(z)))
                     }
                 }
             }
@@ -82,28 +82,28 @@ class VectorTests: XCTestCase {
     //---------------------------------------------------------------------------------------------
     
     func testDotProductBasic() {
-        let vector1 = Vector4D(x: 1.0, y: 1.0, z: 1.0)
-        let vector2 = Vector4D(x: 0.0, y: 0.0, z: 0.0)
+        let vector1 = Vector(x: 1.0, y: 1.0, z: 1.0)
+        let vector2 = Vector(x: 0.0, y: 0.0, z: 0.0)
         let scalarDot = vector1.dot(vector2)
         XCTAssertEqual(scalarDot, 0.0)
     }
 
     func testDotProductBasicSameVector() {
-        let vector = Vector4D(x: 1.0, y: 1.0, z: 1.0)
+        let vector = Vector(x: 1.0, y: 1.0, z: 1.0)
         let scalarDot = vector.dot(vector)
         XCTAssertEqual(scalarDot, 3.0)
     }
 
     func testDotProductBothNegative() {
-        let vector1 = Vector4D(x: -1.0, y: -1.0, z: -1.0)
-        let vector2 = Vector4D(x: -1.0, y: -1.0, z: -1.0)
+        let vector1 = Vector(x: -1.0, y: -1.0, z: -1.0)
+        let vector2 = Vector(x: -1.0, y: -1.0, z: -1.0)
         let scalarDot = vector1.dot(vector2)
         XCTAssertEqual(scalarDot, 3.0)
     }
 
     func testDotProductNegativeAndPositive() {
-        let vector1 = Vector4D(x: -1.0, y: -1.0, z: -1.0)
-        let vector2 = Vector4D(x: 1.0, y: 1.0, z: 1.0)
+        let vector1 = Vector(x: -1.0, y: -1.0, z: -1.0)
+        let vector2 = Vector(x: 1.0, y: 1.0, z: 1.0)
         let scalarDot = vector1.dot(vector2)
         XCTAssertEqual(scalarDot, -3.0)
     }
@@ -113,8 +113,8 @@ class VectorTests: XCTestCase {
     //---------------------------------------------------------------------------------------------
     
     func testCrossProductBasic() {
-        let vector1 = Vector4D(x: 1.0, y: 0.0, z: 0.0)
-        let vector2 = Vector4D(x: 0.0, y: 1.0, z: 0.0)
+        let vector1 = Vector(x: 1.0, y: 0.0, z: 0.0)
+        let vector2 = Vector(x: 0.0, y: 1.0, z: 0.0)
         let crossVector = vector1.cross(vector2)
         XCTAssertEqual(crossVector.x, 0.0)
         XCTAssertEqual(crossVector.y, 0.0)
@@ -122,8 +122,8 @@ class VectorTests: XCTestCase {
     }
 
     func testCrossProductDifferentLengths() {
-        let vector1 = Vector4D(x: 2.0, y: 0.0, z: 0.0)
-        let vector2 = Vector4D(x: 0.0, y: 3.0, z: 0.0)
+        let vector1 = Vector(x: 2.0, y: 0.0, z: 0.0)
+        let vector2 = Vector(x: 0.0, y: 3.0, z: 0.0)
         let crossVector = vector1.cross(vector2)
         XCTAssertEqual(crossVector.x, 0.0)
         XCTAssertEqual(crossVector.y, 0.0)
@@ -131,8 +131,8 @@ class VectorTests: XCTestCase {
     }
 
     func testCrossProductDifferentAngles() {
-        let vector1 = Vector4D(x: 1.0, y: 1.0, z: 0.0)
-        let vector2 = Vector4D(x: -1.0, y: 1.0, z: 0.0)
+        let vector1 = Vector(x: 1.0, y: 1.0, z: 0.0)
+        let vector2 = Vector(x: -1.0, y: 1.0, z: 0.0)
         let crossVector = vector1.cross(vector2)
         XCTAssertEqual(crossVector.x, 0.0)
         XCTAssertEqual(crossVector.y, 0.0)
@@ -140,8 +140,8 @@ class VectorTests: XCTestCase {
     }
 
     func testCrossProductDifferentAngles2() {
-        let vector1 = Vector4D(x: 1.0, y: 1.0, z: 0.0)
-        let vector2 = Vector4D(x: 0.0, y: 1.0, z: 0.0)
+        let vector1 = Vector(x: 1.0, y: 1.0, z: 0.0)
+        let vector2 = Vector(x: 0.0, y: 1.0, z: 0.0)
         let crossVector = vector1.cross(vector2)
         XCTAssertEqual(crossVector.x, 0.0)
         XCTAssertEqual(crossVector.y, 0.0)
@@ -153,12 +153,12 @@ class VectorTests: XCTestCase {
     //---------------------------------------------------------------------------------------------
     
     func testMagnitudePositive() {
-        let vector = Vector4D(r: 1024.6, theta1: 0.0, theta2: 0.0)
+        let vector = Vector(r: 1024.6, theta1: 0.0, theta2: 0.0)
         XCTAssertEqual(vector.magnitude, 1024.6)
     }
 
     func testMagnitudeNegative() {
-        let vector = Vector4D(r: -1024.6, theta1: 0.0, theta2: 0.0)
+        let vector = Vector(r: -1024.6, theta1: 0.0, theta2: 0.0)
         XCTAssertEqual(vector.magnitude, 1024.6)
     }
     
@@ -167,22 +167,22 @@ class VectorTests: XCTestCase {
     //---------------------------------------------------------------------------------------------
     
     func testInvertPositive() {
-        let vector = Vector4D(r: 10.0, theta1: 0.0, theta2: 0.0).inverted()
+        let vector = Vector(r: 10.0, theta1: 0.0, theta2: 0.0).inverted()
         XCTAssertEqual(vector.x, -10.0)
     }
 
     func testInvertNegative() {
-        let vector = Vector4D(r: -10.0, theta1: 0.0, theta2: 0.0).inverted()
+        let vector = Vector(r: -10.0, theta1: 0.0, theta2: 0.0).inverted()
         XCTAssertEqual(vector.x, 10.0)
     }
 
     func testInvertedPositive() {
-        let vector = Vector4D(r: 10.0, theta1: 0.0, theta2: 0.0)
+        let vector = Vector(r: 10.0, theta1: 0.0, theta2: 0.0)
         XCTAssertEqual(vector.inverted().x, -10.0)
     }
 
     func testInvertedNegative() {
-        let vector = Vector4D(r: -10.0, theta1: 0.0, theta2: 0.0)
+        let vector = Vector(r: -10.0, theta1: 0.0, theta2: 0.0)
         XCTAssertEqual(vector.inverted().x, 10.0)
     }
     
@@ -191,22 +191,22 @@ class VectorTests: XCTestCase {
     //---------------------------------------------------------------------------------------------
     
     func testNormalizePositive() {
-        let vector = Vector4D(r: 10.0, theta1: 0.0, theta2: 0.0).normalized()
+        let vector = Vector(r: 10.0, theta1: 0.0, theta2: 0.0).normalized()
         XCTAssertEqual(vector.x, 1.0)
     }
 
     func testNormalizeNegative() {
-        let vector = Vector4D(r: -10.0, theta1: 0.0, theta2: 0.0).normalized()
+        let vector = Vector(r: -10.0, theta1: 0.0, theta2: 0.0).normalized()
         XCTAssertEqual(vector.x, -1.0)
     }
 
     func testNormalizedPositive() {
-        let vector = Vector4D(r: 10.0, theta1: 0.0, theta2: 0.0)
+        let vector = Vector(r: 10.0, theta1: 0.0, theta2: 0.0)
         XCTAssertEqual(vector.normalized().x, 1.0)
     }
 
     func testNormalizedNegative() {
-        let vector = Vector4D(r: -10.0, theta1: 0.0, theta2: 0.0)
+        let vector = Vector(r: -10.0, theta1: 0.0, theta2: 0.0)
         XCTAssertEqual(vector.normalized().x, -1.0)
     }
     
@@ -215,8 +215,8 @@ class VectorTests: XCTestCase {
     //---------------------------------------------------------------------------------------------
     
     func testVectorAddXYSimple() {
-        let vector1 = Vector4D(x: 1.0, y: 1.0, z: 0.0)
-        let vector2 = Vector4D(x: 1.0, y: 1.0, z: 0.0)
+        let vector1 = Vector(x: 1.0, y: 1.0, z: 0.0)
+        let vector2 = Vector(x: 1.0, y: 1.0, z: 0.0)
         let resultantVector = vector1 + vector2
         XCTAssertEqual(resultantVector.x, 2.0)
         XCTAssertEqual(resultantVector.y, 2.0)
@@ -224,8 +224,8 @@ class VectorTests: XCTestCase {
     }
 
     func testVectorAddXYComplicated() {
-        let vector1 = Vector4D(x: 1.0, y: 1.0, z: 0.0)
-        let vector2 = Vector4D(x: 0.7, y: 0.3, z: 0.0)
+        let vector1 = Vector(x: 1.0, y: 1.0, z: 0.0)
+        let vector2 = Vector(x: 0.7, y: 0.3, z: 0.0)
         let resultantVector = vector1 + vector2
         XCTAssertEqual(resultantVector.x, 1.7)
         XCTAssertEqual(resultantVector.y, 1.3)
@@ -233,8 +233,8 @@ class VectorTests: XCTestCase {
     }
 
     func testVectorAddXYZ() {
-        let vector1 = Vector4D(x: 1.0, y: 1.0, z: 1.0)
-        let vector2 = Vector4D(x: 0.7, y: 0.3, z: 0.5)
+        let vector1 = Vector(x: 1.0, y: 1.0, z: 1.0)
+        let vector2 = Vector(x: 0.7, y: 0.3, z: 0.5)
         let resultantVector = vector1 + vector2
         XCTAssertEqual(resultantVector.x, 1.7)
         XCTAssertEqual(resultantVector.y, 1.3)
@@ -242,7 +242,7 @@ class VectorTests: XCTestCase {
     }
 
     func testVectorAddNegativeSelf() {
-        let vector1 = Vector4D(x: 1.2, y: 2.3, z: 3.4)
+        let vector1 = Vector(x: 1.2, y: 2.3, z: 3.4)
         let vector2 = vector1 * -1.0
         let resultantVector = vector1 + vector2
         XCTAssertEqual(resultantVector.x, 0.0, accuracy: 0.0000001)
@@ -251,15 +251,15 @@ class VectorTests: XCTestCase {
     }
 
     func testVectorAdditionCommutativity() {
-        let vector1 = Vector4D(x: 2.0, y: 3.0, z: 4.0)
-        let vector2 = Vector4D(x: 4.0, y: 6.0, z: 8.0)
+        let vector1 = Vector(x: 2.0, y: 3.0, z: 4.0)
+        let vector2 = Vector(x: 4.0, y: 6.0, z: 8.0)
         XCTAssert(vector1 + vector2 == vector2 + vector1)
 
     }
     
     func testVectorPlusEqualsXYSimple() {
-        var vector1 = Vector4D(x: 1.0, y: 1.0, z: 0.0)
-        let vector2 = Vector4D(x: 1.0, y: 1.0, z: 0.0)
+        var vector1 = Vector(x: 1.0, y: 1.0, z: 0.0)
+        let vector2 = Vector(x: 1.0, y: 1.0, z: 0.0)
         vector1 += vector2
         XCTAssertEqual(vector1.x, 2.0)
         XCTAssertEqual(vector1.y, 2.0)
@@ -267,8 +267,8 @@ class VectorTests: XCTestCase {
     }
     
     func testVectorPlusEqualsXYComplicated() {
-        var vector1 = Vector4D(x: 1.0, y: 1.0, z: 0.0)
-        let vector2 = Vector4D(x: 0.7, y: 0.3, z: 0.0)
+        var vector1 = Vector(x: 1.0, y: 1.0, z: 0.0)
+        let vector2 = Vector(x: 0.7, y: 0.3, z: 0.0)
         vector1 += vector2
         XCTAssertEqual(vector1.x, 1.7)
         XCTAssertEqual(vector1.y, 1.3)
@@ -276,8 +276,8 @@ class VectorTests: XCTestCase {
     }
 
     func testVectorPlusEqualsXYZ() {
-        var vector1 = Vector4D(x: 1.0, y: 1.0, z: 1.0)
-        let vector2 = Vector4D(x: 0.7, y: 0.3, z: 0.5)
+        var vector1 = Vector(x: 1.0, y: 1.0, z: 1.0)
+        let vector2 = Vector(x: 0.7, y: 0.3, z: 0.5)
         vector1 += vector2
         XCTAssertEqual(vector1.x, 1.7)
         XCTAssertEqual(vector1.y, 1.3)
@@ -289,8 +289,8 @@ class VectorTests: XCTestCase {
     //---------------------------------------------------------------------------------------------
     
     func testVectorSubtractXYSimple() {
-        let vector1 = Vector4D(x: 1.0, y: 1.0, z: 0.0)
-        let vector2 = Vector4D(x: 1.0, y: 1.0, z: 0.0)
+        let vector1 = Vector(x: 1.0, y: 1.0, z: 0.0)
+        let vector2 = Vector(x: 1.0, y: 1.0, z: 0.0)
         let resultantVector = vector1 - vector2
         XCTAssertEqual(resultantVector.x, 0.0)
         XCTAssertEqual(resultantVector.y, 0.0)
@@ -298,8 +298,8 @@ class VectorTests: XCTestCase {
     }
 
     func testVectorSubtractXYComplicated() {
-        let vector1 = Vector4D(x: 1.0, y: 1.0, z: 0.0)
-        let vector2 = Vector4D(x: 0.7, y: 0.3, z: 0.0)
+        let vector1 = Vector(x: 1.0, y: 1.0, z: 0.0)
+        let vector2 = Vector(x: 0.7, y: 0.3, z: 0.0)
         let resultantVector = vector1 - vector2
         XCTAssertEqual(resultantVector.x, 0.3, accuracy: Double.ulpOfOne)
         XCTAssertEqual(resultantVector.y, 0.7, accuracy: Double.ulpOfOne)
@@ -307,8 +307,8 @@ class VectorTests: XCTestCase {
     }
 
     func testVectorSubtractXYZ() {
-        let vector1 = Vector4D(x: 1.0, y: 1.0, z: 1.0)
-        let vector2 = Vector4D(x: 0.7, y: 0.3, z: 0.5)
+        let vector1 = Vector(x: 1.0, y: 1.0, z: 1.0)
+        let vector2 = Vector(x: 0.7, y: 0.3, z: 0.5)
         let resultantVector = vector1 - vector2
         XCTAssertEqual(resultantVector.x, 0.3, accuracy: Double.ulpOfOne)
         XCTAssertEqual(resultantVector.y, 0.7, accuracy: Double.ulpOfOne)
@@ -316,7 +316,7 @@ class VectorTests: XCTestCase {
     }
 
     func testVectorSubtractSelf() {
-        let vector1 = Vector4D(x: 1.2, y: 2.3, z: 3.4)
+        let vector1 = Vector(x: 1.2, y: 2.3, z: 3.4)
         let vector2 = vector1
         let resultantVector = vector1 - vector2
         XCTAssertEqual(resultantVector.x, 0.0, accuracy: 0.0000001)
@@ -325,15 +325,15 @@ class VectorTests: XCTestCase {
     }
 
     func testVectorSubtractionAdditionEquality() {
-        let vector1 = Vector4D(x: 2.0, y: 3.0, z: 4.0)
-        let vector2 = Vector4D(x: 4.0, y: 6.0, z: 8.0)
+        let vector1 = Vector(x: 2.0, y: 3.0, z: 4.0)
+        let vector2 = Vector(x: 4.0, y: 6.0, z: 8.0)
         XCTAssert(vector2 - vector1 == vector2 + (vector1 * -1.0))
 
     }
     
     func testVectorMinusEqualsXYSimple() {
-        var vector1 = Vector4D(x: 1.0, y: 1.0, z: 0.0)
-        let vector2 = Vector4D(x: 1.0, y: 1.0, z: 0.0)
+        var vector1 = Vector(x: 1.0, y: 1.0, z: 0.0)
+        let vector2 = Vector(x: 1.0, y: 1.0, z: 0.0)
         vector1 -= vector2
         XCTAssertEqual(vector1.x, 0.0)
         XCTAssertEqual(vector1.y, 0.0)
@@ -341,8 +341,8 @@ class VectorTests: XCTestCase {
     }
 
     func testVectorMinusEqualsXYComplicated() {
-        var vector1 = Vector4D(x: 1.0, y: 1.0, z: 0.0)
-        let vector2 = Vector4D(x: 0.7, y: 0.3, z: 0.0)
+        var vector1 = Vector(x: 1.0, y: 1.0, z: 0.0)
+        let vector2 = Vector(x: 0.7, y: 0.3, z: 0.0)
         vector1 -= vector2
         XCTAssertEqual(vector1.x, 0.3, accuracy: Double.ulpOfOne)
         XCTAssertEqual(vector1.y, 0.7, accuracy: Double.ulpOfOne)
@@ -350,8 +350,8 @@ class VectorTests: XCTestCase {
     }
 
     func testVectorMinusEqualsXYZ() {
-        var vector1 = Vector4D(x: 1.0, y: 1.0, z: 1.0)
-        let vector2 = Vector4D(x: 0.7, y: 0.3, z: 0.5)
+        var vector1 = Vector(x: 1.0, y: 1.0, z: 1.0)
+        let vector2 = Vector(x: 0.7, y: 0.3, z: 0.5)
         vector1 -= vector2
         XCTAssertEqual(vector1.x, 0.3, accuracy: Double.ulpOfOne)
         XCTAssertEqual(vector1.y, 0.7, accuracy: Double.ulpOfOne)
@@ -363,7 +363,7 @@ class VectorTests: XCTestCase {
     //---------------------------------------------------------------------------------------------
     
     func testVectorMultiplyByScalar() {
-        let vector = Vector4D(x: 1.0, y: 2.0, z: 3.0)
+        let vector = Vector(x: 1.0, y: 2.0, z: 3.0)
         let resultantVector = vector * Double.pi
         XCTAssertEqual(resultantVector.x, Double.pi, accuracy: Double.ulpOfOne)
         XCTAssertEqual(resultantVector.y, 2.0 * Double.pi, accuracy: Double.ulpOfOne)
@@ -371,7 +371,7 @@ class VectorTests: XCTestCase {
     }
     
     func testVectorTimesEqualsScalar() {
-        var vector = Vector4D(x: 1.0, y: 2.0, z: 3.0)
+        var vector = Vector(x: 1.0, y: 2.0, z: 3.0)
         vector *= Double.pi
         XCTAssertEqual(vector.x, Double.pi, accuracy: Double.ulpOfOne)
         XCTAssertEqual(vector.y, 2.0 * Double.pi, accuracy: Double.ulpOfOne)
@@ -379,8 +379,8 @@ class VectorTests: XCTestCase {
     }
     
     func testVectorMultiplyByVector() {
-        let v1 = Vector4D(x: 1.0, y: 2.0, z: 3.0)
-        let v2 = Vector4D(x: 2.0, y: 2.0, z: 2.0)
+        let v1 = Vector(x: 1.0, y: 2.0, z: 3.0)
+        let v2 = Vector(x: 2.0, y: 2.0, z: 2.0)
         let resultantVector = v1 * v2
         XCTAssertEqual(resultantVector.x, 2.0, accuracy: Double.ulpOfOne)
         XCTAssertEqual(resultantVector.y, 4.0, accuracy: Double.ulpOfOne)
@@ -388,8 +388,8 @@ class VectorTests: XCTestCase {
     }
     
     func testVectorTimesEqualsVector() {
-        var vector = Vector4D(x: 1.0, y: 2.0, z: 3.0)
-        vector *= Vector4D(x: 2.0, y: 2.0, z: 2.0)
+        var vector = Vector(x: 1.0, y: 2.0, z: 3.0)
+        vector *= Vector(x: 2.0, y: 2.0, z: 2.0)
         XCTAssertEqual(vector.x, 2.0, accuracy: Double.ulpOfOne)
         XCTAssertEqual(vector.y, 4.0, accuracy: Double.ulpOfOne)
         XCTAssertEqual(vector.z, 6.0, accuracy: Double.ulpOfOne)
@@ -400,7 +400,7 @@ class VectorTests: XCTestCase {
     //---------------------------------------------------------------------------------------------
     
     func testVectorDivideByScalar() {
-        let vector = Vector4D(x: 1.0, y: 2.0, z: 3.0)
+        let vector = Vector(x: 1.0, y: 2.0, z: 3.0)
         let resultantVector = vector / Double.pi
         XCTAssertEqual(resultantVector.x, 1.0 / Double.pi, accuracy: Double.ulpOfOne)
         XCTAssertEqual(resultantVector.y, 2.0 / Double.pi, accuracy: Double.ulpOfOne)
@@ -408,7 +408,7 @@ class VectorTests: XCTestCase {
     }
     
     func testVectorDivideEqualsScalar() {
-        var vector = Vector4D(x: 1.0, y: 2.0, z: 3.0)
+        var vector = Vector(x: 1.0, y: 2.0, z: 3.0)
         vector /= Double.pi
         XCTAssertEqual(vector.x, 1.0 / Double.pi, accuracy: Double.ulpOfOne)
         XCTAssertEqual(vector.y, 2.0 / Double.pi, accuracy: Double.ulpOfOne)
@@ -416,8 +416,8 @@ class VectorTests: XCTestCase {
     }
     
     func testVectorDivideByVector() {
-        let v1 = Vector4D(x: 1.0, y: 2.0, z: 3.0)
-        let v2 = Vector4D(x: 2.0, y: 2.0, z: 2.0)
+        let v1 = Vector(x: 1.0, y: 2.0, z: 3.0)
+        let v2 = Vector(x: 2.0, y: 2.0, z: 2.0)
         let resultantVector = v1 / v2
         XCTAssertEqual(resultantVector.x, 1.0/2.0, accuracy: Double.ulpOfOne)
         XCTAssertEqual(resultantVector.y, 2.0/2.0, accuracy: Double.ulpOfOne)
@@ -425,8 +425,8 @@ class VectorTests: XCTestCase {
     }
     
     func testVectorDivideEqualsVector() {
-        var vector = Vector4D(x: 1.0, y: 2.0, z: 3.0)
-        vector /= Vector4D(x: 2.0, y: 2.0, z: 2.0)
+        var vector = Vector(x: 1.0, y: 2.0, z: 3.0)
+        vector /= Vector(x: 2.0, y: 2.0, z: 2.0)
         XCTAssertEqual(vector.x, 1.0/2.0, accuracy: Double.ulpOfOne)
         XCTAssertEqual(vector.y, 2.0/2.0, accuracy: Double.ulpOfOne)
         XCTAssertEqual(vector.z, 3.0/2.0, accuracy: Double.ulpOfOne)
@@ -437,14 +437,14 @@ class VectorTests: XCTestCase {
     //---------------------------------------------------------------------------------------------
     
     func testVectorEqualityBasic() {
-        let vector1 = Vector4D(x: 1.0, y: 2.0, z: 3.0)
-        let vector2 = Vector4D(x: 1.0, y: 2.0, z: 3.0)
+        let vector1 = Vector(x: 1.0, y: 2.0, z: 3.0)
+        let vector2 = Vector(x: 1.0, y: 2.0, z: 3.0)
         XCTAssert(vector1 == vector2)
     }
 
     func testVectorEqualityModified() {
-        var vector1 = Vector4D(x: 1.0, y: 2.0, z: 2.0)
-        let vector2 = Vector4D(x: 1.0, y: 2.0, z: 3.0)
+        var vector1 = Vector(x: 1.0, y: 2.0, z: 2.0)
+        let vector2 = Vector(x: 1.0, y: 2.0, z: 3.0)
         vector1.z = 3.0
         XCTAssert(vector1 == vector2)
     }

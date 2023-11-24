@@ -1,24 +1,26 @@
-struct Hittables: Hittable {
-    private var objects: [Hittable] = []
+//TODO: Get rid of this
+
+struct Strikables: Strikeable {
+    private var objects: [Strikeable] = []
 
     public init() {
         objects = []
     }
 
-    public init(hittableObject: Hittable) {
-        add(hittableObject: hittableObject)
+    public init(strikeableObject: Strikeable) {
+        add(strikeableObject: strikeableObject)
     }
 
     public mutating func clear() {
         objects.removeAll()
     }
 
-    public mutating func add(hittableObject: Hittable) {
-        objects.append(hittableObject)
+    public mutating func add(strikeableObject: Strikeable) {
+        objects.append(strikeableObject)
     }
 
-    func hit(ray: Ray, tMin: Double, tMax: Double, record: inout HitRecord) -> Bool {
-        var temporaryRecord = HitRecord()
+    func hit(ray: Ray, tMin: Double, tMax: Double, record: inout StrikeRecord) -> Bool {
+        var temporaryRecord = StrikeRecord()
         var hitAnything = false
         var closestSoFar = tMax
 

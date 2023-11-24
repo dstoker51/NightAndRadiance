@@ -1,13 +1,13 @@
-struct Sphere: Hittable {
-    public var center = Point3D(0.0, 0.0, 0.0)
+struct Sphere: Strikeable {
+    public var center = Point(0.0, 0.0, 0.0)
     public var radius = 0.0
 
-    init(center: Point3D, radius: Double) {
+    init(center: Point, radius: Double) {
         self.center = center
         self.radius = radius
     }
 
-    func hit(ray: Ray, tMin: Double, tMax: Double, record: inout HitRecord) -> Bool {
+    func hit(ray: Ray, tMin: Double, tMax: Double, record: inout StrikeRecord) -> Bool {
         let oc = ray.emissionPoint - center
         let a = ray.directionVector.magnitude * ray.directionVector.magnitude
         let halfB = oc.dot(ray.directionVector)

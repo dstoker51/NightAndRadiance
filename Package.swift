@@ -8,18 +8,15 @@ let package = Package(
     products: [
         .library(
             name: "NightAndRadiance",
-            targets: ["NightAndRadiance"]),
-        .executable(
-            name: "night_and_radiance",
             targets: ["NightAndRadiance"])
     ],
     dependencies: [],
     targets: [
-        .executableTarget(
+        .target(
             name: "NightAndRadiance",
             dependencies: []),
-//        .testTarget(
-//            name: "NightAndRadianceTests",
-//            dependencies: ["NightAndRadiance"]),
+        .testTarget(
+            name: "NightAndRadianceTests",
+            dependencies: ["NightAndRadiance"]),
     ]
 )

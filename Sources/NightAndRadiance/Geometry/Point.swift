@@ -9,7 +9,7 @@
 import Foundation
 
 /// A 3D point. 
-struct Point3D: Hashable, CustomStringConvertible {
+struct Point: Hashable, CustomStringConvertible {
     var x, y, z: Double
     var description: String { return "(x: \(x), y: \(y), z: \(z))" }
     
@@ -27,6 +27,6 @@ struct Point3D: Hashable, CustomStringConvertible {
     }
 }
 
-func == (lhs: Point3D, rhs: Point3D) -> Bool {
+func == (lhs: Point, rhs: Point) -> Bool {
     return (lhs.x == rhs.x && lhs.y == rhs.y && lhs.z == rhs.z ? true : false)
 }
