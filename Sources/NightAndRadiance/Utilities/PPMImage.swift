@@ -25,14 +25,34 @@ struct PPMImage: CustomStringConvertible {
             self.raster = []
         default:
             switch imageHeightPixels {
-            case ...1:
-                self.width = raster.count
-                self.height = 1
-                self.raster = raster
+            case ...0:
+                self.width = 0
+                self.height = 0
+                self.raster = []
             default:
                 self.width = Int(ceil(Double(raster.count) / Double(imageHeightPixels)))
                 self.height = imageHeightPixels
-                self.raster = raster + Array(repeating: Color(red: 0.0, green: 0.0, blue: 0.0), count: max(self.width - raster.count, 0))
+                self.raster = raster + Array(repeating: Color(red: 0.0, green: 0.0, blue: 0.0), count: max(self.width * self.height - raster.count, 0))
+            }
+        }
+    }
+    
+    init(raster: [Color], imageWidthPixels: Int) {
+        switch raster.count {
+        case 0:
+            self.width = 0
+            self.height = 0
+            self.raster = []
+        default:
+            switch imageWidthPixels {
+            case ...0:
+                self.width = 0
+                self.height = 0
+                self.raster = []
+            default:
+                self.width = imageWidthPixels
+                self.height = Int(ceil(Double(raster.count) / Double(imageWidthPixels)))
+                self.raster = raster + Array(repeating: Color(red: 0.0, green: 0.0, blue: 0.0), count: max(self.width * self.height - raster.count, 0))
             }
         }
     }
