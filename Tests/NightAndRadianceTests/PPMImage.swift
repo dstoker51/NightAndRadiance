@@ -1,5 +1,5 @@
 //
-//  PPMWriterTests.swift
+//  PPMImageTests.swift
 //  
 //
 //  Created by Darin Stoker on 8/12/22.
@@ -8,7 +8,7 @@
 import XCTest
 @testable import NightAndRadiance
 
-class PPMWriterTests: XCTestCase {
+class PPMImageTests: XCTestCase {
     var raster: Array<Color> = []
     let imageWidth = 1000
     let imageHeight = 1000
@@ -19,8 +19,8 @@ class PPMWriterTests: XCTestCase {
             }
         }
         
-        let writer = PPMWriter(filename: "test.ppm", filepath: "/Users/dstoker/Downloads/", width: imageWidth, height: imageHeight)
-        writer.write(raster: raster)
+        let image = PPMImage(raster: raster, imageHeightPixels: imageHeight)
+        XCTAssertNotNil(image.save(filename: "test.ppm", filepath: "/Users/dstoker/Downloads"))
         
         // TODO: Add a way to save the raster using Xcode asset functionality like in CriRaster at work
     }
